@@ -1,0 +1,3 @@
+1. setup environment OpenGL (Windows/Linux/MacOS) dengan IDE bebas
+2. Menggambar 3 buah segitiga yg masing-masing warnanya merah, hijau, biru
+3. menggambar 1 buah segitiga (dalam scene yang berbeda) yang memiliki warna gradasi merah, hijau, dan biru					
