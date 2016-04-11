@@ -1,6 +1,9 @@
 #include "GLFW/glfw3.h"
 #include <stdlib.h>
 #include <stdio.h>
+
+int depth = 4; 
+
 static void error_callback(int error, const char* description)
 {
     fputs(description, stderr);
@@ -90,7 +93,7 @@ int main(void)
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
 
-        subTriangle(3, -1.0, -0.58, 1.0, -0.58, 0.0, 1.15);
+        subTriangle(1, -1.0f, -0.68f, 1.0f, -0.68f, 0.0f, 1.0f);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
