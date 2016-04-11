@@ -52,7 +52,7 @@ void drawCube()
         -1, -1, -1,   -1, -1,  1,    1, -1,  1,    1, -1, -1,
         -1,  1, -1,   -1,  1,  1,    1,  1,  1,    1,  1, -1,
         -1, -1, -1,   -1,  1, -1,    1,  1, -1,    1, -1, -1,
-        -1, -1,  1,   -1,  1,  1,    1,  1,  1,    1, -1,  1
+        -1, -1,  1,   -1,  1,  1,    1,  1,  1,    1, -1,  1 
     };
 
     GLfloat colors[] =
@@ -67,7 +67,7 @@ void drawCube()
 
     static float alpha = 0;
     //attempt to rotate cube
-    glRotatef(alpha, 0, 1, 0);
+    glRotatef(alpha, 1, 1, 0);
 
     /* We have a color array and a vertex array */
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -81,7 +81,7 @@ void drawCube()
     /* Cleanup states */
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
-    alpha += 1;
+    alpha += 0.01;
 }
 
 void display( GLFWwindow* window )
@@ -94,7 +94,7 @@ void display( GLFWwindow* window )
         glViewport(0, 0, windowWidth, windowHeight);
 
         // Draw stuff
-        glClearColor(0.0, 0.8, 0.3, 1.0);
+        glClearColor(0.0, 0.0, 0.0, 1.0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glMatrixMode(GL_PROJECTION_MATRIX);
