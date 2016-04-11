@@ -2,8 +2,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <iostream>
+using namespace std;
 
-int depth = 4; 
+int depth = 6; 
 
 static void error_callback(int error, const char* description)
 {
@@ -15,32 +17,41 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         glfwSetWindowShouldClose(window, GL_TRUE);
 }
 
-int depth = 3;
 //The recursive function that'll draw all the upside down triangles
 void subTriangle(int n, float x1, float y1, float x2, float y2, float x3, float y3, float r, float g, float b)
 {
-  //Draw the 3 sides as black lines
-    glBegin(GL_TRIANGLES);
-    glVertex3f(x1, y1, 0.f);
-    glVertex3f(x2, y2, 0.f);
-    glVertex3f(x3, y3, 0.f);
-    glColor3f(r, g, b);
-    glEnd();
-
-  if (n == depth-1){
+  if (n == depth){
     r=1, g=0, b=0;
-  } else if (n == depth-2){
+  } else if (n == depth-1){
     r=0, g=1, b=0;
-  } else if (n == depth-3){
+  } else if (n == depth-2){
     r=0, g=0, b=1;
-  } else if (n == depth-4){
+  } else if (n == depth-3){
     r=1, g=1, b=0;
+  } else if (n == depth-4){
+    r=0, g=1, b=1;
   } else {
-    r=1, g=1, b=1;
+    r=1, g=0, b=1;
   }
+
+  //Draw the 3 sides as black lines
+  glBegin(GL_TRIANGLES);
+  glColor3f(r, g, b);
+  glVertex3f(x1, y1, 0.f);
+  glColor3f(r, g, b);
+  glVertex3f(x2, y2, 0.f);
+  glColor3f(r, g, b);
+  glVertex3f(x3, y3, 0.f);
+  glEnd();
+
+  /*cout << "n: " << n << endl;
+  cout << "x1: " << x1 << " y1: " << y1 << endl;
+  cout << "x2: " << x2 << " y2: " << y2 << endl;
+  cout << "x3: " << x3 << " y3: " << y3 << endl;
+  cout << "r: " << r << " g: " << g << " b: " << b << endl << endl;*/
   
   //Calls itself 3 times with new corners, but only if the current number of recursions is smaller than the maximum depth
-  if(n < depth)
+  if(n < (depth))
   {
     //Smaller triangle 1
     subTriangle
@@ -81,6 +92,7 @@ void subTriangle(int n, float x1, float y1, float x2, float y2, float x3, float 
       r,g,b
     );
   }
+
 }
 
 int main(void)
@@ -112,6 +124,15 @@ int main(void)
         glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
+
+        glBegin(GL_TRIANGLES);
+        glColor3f(1.f, 1.f, 1.f);
+        glVertex3f(-0.8f, -0.6f, 0.f);
+        glColor3f(1.f, 1.f, 1.f);
+        glVertex3f(0.8f, -0.6f, 0.f);
+        glColor3f(1.f, 1.f, 1.f);
+        glVertex3f(0.f, 0.8f, 0.f);
+        glEnd();
 
         float r = 1;
         float g = 1;
