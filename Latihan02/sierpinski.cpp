@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int depth = 4; 
+int depth = 5; 
 
 static void error_callback(int error, const char* description)
 {
@@ -22,7 +22,7 @@ void subTriangle(int n, float x1, float y1, float x2, float y2, float x3, float 
     glVertex3f(x1, y1, 0.f);
     glVertex3f(x2, y2, 0.f);
     glVertex3f(x3, y3, 0.f);
-    glColor3f(0.f, 0.f, 1.f);
+    glColor3f(0.f, 1.f, 1.f);
     glEnd();
 
   //Calls itself 3 times with new corners, but only if the current number of recursions is smaller than the maximum depth
@@ -93,7 +93,7 @@ int main(void)
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
 
-        subTriangle(1, -1.0f, -0.68f, 1.0f, -0.68f, 0.0f, 1.0f);
+        subTriangle(1, -0.4f, 0.1f, 0.4f, 0.1f, 0.0f, -0.6f);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
