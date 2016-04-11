@@ -95,55 +95,60 @@ void subTriangle(int n, float x1, float y1, float x2, float y2, float x3, float 
 
 }
 
-int main(void)
+int main(int argc, char** argv)
 {
-    
-    GLFWwindow* window;
-    glfwSetErrorCallback(error_callback);
-    if (!glfwInit())
-        exit(EXIT_FAILURE);
-    window = glfwCreateWindow(640, 480, "Triangle", NULL, NULL);
-    if (!window)
-    {
-        glfwTerminate();
-        exit(EXIT_FAILURE);
+    if (argc < 2){
+      exit(0);
+    } else {
+      depth = atoi(argv[1]);
+      
+      GLFWwindow* window;
+      glfwSetErrorCallback(error_callback);
+      if (!glfwInit())
+          exit(EXIT_FAILURE);
+      window = glfwCreateWindow(640, 480, "Triangle", NULL, NULL);
+      if (!window)
+      {
+          glfwTerminate();
+          exit(EXIT_FAILURE);
+      }
+      glfwMakeContextCurrent(window);
+      glfwSwapInterval(1);
+      glfwSetKeyCallback(window, key_callback);
+      while (!glfwWindowShouldClose(window))
+      {
+          float ratio;
+          int width, height;
+          glfwGetFramebufferSize(window, &width, &height);
+          ratio = width / (float) height;
+          glViewport(0, 0, width, height);
+          glClear(GL_COLOR_BUFFER_BIT);
+          glMatrixMode(GL_PROJECTION);
+          glLoadIdentity();
+          glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
+          glMatrixMode(GL_MODELVIEW);
+          glLoadIdentity();
+
+          glBegin(GL_TRIANGLES);
+          glColor3f(1.f, 1.f, 1.f);
+          glVertex3f(-0.8f, -0.6f, 0.f);
+          glColor3f(1.f, 1.f, 1.f);
+          glVertex3f(0.8f, -0.6f, 0.f);
+          glColor3f(1.f, 1.f, 1.f);
+          glVertex3f(0.f, 0.8f, 0.f);
+          glEnd();
+
+          float r = 1;
+          float g = 1;
+          float b = 1;
+
+          subTriangle(1, -0.4f, 0.1f, 0.4f, 0.1f, 0.0f, -0.6f, r, g, b);
+
+          glfwSwapBuffers(window);
+          glfwPollEvents();
+      }
+      glfwDestroyWindow(window);
+      glfwTerminate();
+      exit(EXIT_SUCCESS);
     }
-    glfwMakeContextCurrent(window);
-    glfwSwapInterval(1);
-    glfwSetKeyCallback(window, key_callback);
-    while (!glfwWindowShouldClose(window))
-    {
-        float ratio;
-        int width, height;
-        glfwGetFramebufferSize(window, &width, &height);
-        ratio = width / (float) height;
-        glViewport(0, 0, width, height);
-        glClear(GL_COLOR_BUFFER_BIT);
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-
-        glBegin(GL_TRIANGLES);
-        glColor3f(1.f, 1.f, 1.f);
-        glVertex3f(-0.8f, -0.6f, 0.f);
-        glColor3f(1.f, 1.f, 1.f);
-        glVertex3f(0.8f, -0.6f, 0.f);
-        glColor3f(1.f, 1.f, 1.f);
-        glVertex3f(0.f, 0.8f, 0.f);
-        glEnd();
-
-        float r = 1;
-        float g = 1;
-        float b = 1;
-
-        subTriangle(1, -0.4f, 0.1f, 0.4f, 0.1f, 0.0f, -0.6f, r, g, b);
-
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
-    glfwDestroyWindow(window);
-    glfwTerminate();
-    exit(EXIT_SUCCESS);
 }
