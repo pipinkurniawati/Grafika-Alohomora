@@ -3,8 +3,6 @@
 #include <stdio.h>
 #include <time.h>
 
-int depth = 4; 
-
 static void error_callback(int error, const char* description)
 {
     fputs(description, stderr);
@@ -110,15 +108,11 @@ int main(void)
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
 
-<<<<<<< HEAD
-        subTriangle(1, -1.0, -0.58, 1.0, -0.58, 0.0, 1.15);
-=======
         float r = 1;
         float g = 1;
         float b = 1;
 
         subTriangle(1, -0.4f, 0.1f, 0.4f, 0.1f, 0.0f, -0.6f, r, g, b);
->>>>>>> 88ba09c3a01083ba688209abb9e44c82a0641986
 
         glfwSwapBuffers(window);
         glfwPollEvents();
