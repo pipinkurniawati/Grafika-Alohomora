@@ -26,13 +26,22 @@ void subTriangle(int n, float x1, float y1, float x2, float y2, float x3, float 
     glColor3f(r, g, b);
     glEnd();
 
+  if (n == depth-1){
+    r=1, g=0, b=0;
+  } else if (n == depth-2){
+    r=0, g=1, b=0;
+  } else if (n == depth-3){
+    r=0, g=0, b=1;
+  } else if (n == depth-4){
+    r=1, g=1, b=0;
+  } else {
+    r=1, g=1, b=1;
+  }
+  
   //Calls itself 3 times with new corners, but only if the current number of recursions is smaller than the maximum depth
   if(n < depth)
   {
     //Smaller triangle 1
-    r = 1;
-    g = 0;
-    b = 0;
     subTriangle
     (
       n+1, //Number of recursions for the next call increased with 1
@@ -46,9 +55,6 @@ void subTriangle(int n, float x1, float y1, float x2, float y2, float x3, float 
     );
     
     //Smaller triangle 2
-    r = 0;
-    g = 1;
-    b = 0;
     subTriangle
     (
       n+1, //Number of recursions for the next call increased with 1
@@ -62,9 +68,6 @@ void subTriangle(int n, float x1, float y1, float x2, float y2, float x3, float 
     );
     
     //Smaller triangle 3
-    r = 0;
-    g = 0;
-    b = 1;
     subTriangle
     (
       n+1, //Number of recursions for the next call increased with 1
