@@ -11,6 +11,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         glfwSetWindowShouldClose(window, GL_TRUE);
 }
 
+int depth = 3;
 //The recursive function that'll draw all the upside down triangles
 void subTriangle(int n, float x1, float y1, float x2, float y2, float x3, float y3)
 {
@@ -90,7 +91,7 @@ int main(void)
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
 
-        subTriangle(3, -1.0, -0.58, 1.0, -0.58, 0.0, 1.15);
+        subTriangle(1, -1.0, -0.58, 1.0, -0.58, 0.0, 1.15);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
