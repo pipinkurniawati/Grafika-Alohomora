@@ -3,13 +3,11 @@
 #include <stdio.h>
 #include <time.h>
 #include <iostream>
+#include <cstring>
 using namespace std;
 
-<<<<<<< HEAD
-=======
 int depth = 6; 
 
->>>>>>> ca689ebbf6e76613816dc9a04dbef17c50efeb26
 static void error_callback(int error, const char* description)
 {
     fputs(description, stderr);
@@ -20,28 +18,10 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         glfwSetWindowShouldClose(window, GL_TRUE);
 }
 
-<<<<<<< HEAD
-int depth = 6;
-//The recursive function that'll draw all the upside down triangles
-void subTriangle(int n, float x1, float y1, float x2, float y2, float x3, float y3, float r, float g, float b)
-{
-  //Draw the 3 sides as black lines
-    glBegin(GL_TRIANGLES);
-    glColor3f(r, g, b);
-    glVertex3f(x1, y1, 0.f);
-    glColor3f(r, g, b);
-    glVertex3f(x2, y2, 0.f);
-
-    glVertex3f(x3, y3, 0.f);
-    glEnd();
-
-  if (n == depth-1){
-=======
 //The recursive function that'll draw all the upside down triangles
 void subTriangle(int n, float x1, float y1, float x2, float y2, float x3, float y3, float r, float g, float b)
 {
   if (n == depth){
->>>>>>> ca689ebbf6e76613816dc9a04dbef17c50efeb26
     r=1, g=0, b=0;
   } else if (n == depth-1){
     r=0, g=1, b=0;
@@ -56,11 +36,17 @@ void subTriangle(int n, float x1, float y1, float x2, float y2, float x3, float 
   }
 
   //Draw the 3 sides as black lines
-  glBegin(GL_TRIANGLES);
+  glBegin(GL_POINTS);
   glColor3f(r, g, b);
   glVertex3f(x1, y1, 0.f);
+  glEnd();
+
+  glBegin(GL_POINTS);
   glColor3f(r, g, b);
   glVertex3f(x2, y2, 0.f);
+  glEnd();
+
+  glBegin(GL_POINTS);
   glColor3f(r, g, b);
   glVertex3f(x3, y3, 0.f);
   glEnd();
@@ -122,7 +108,7 @@ int main(int argc, char** argv)
       exit(0);
     } else {
       depth = atoi(argv[1]);
-      
+
       GLFWwindow* window;
       glfwSetErrorCallback(error_callback);
       if (!glfwInit())
@@ -150,11 +136,17 @@ int main(int argc, char** argv)
           glMatrixMode(GL_MODELVIEW);
           glLoadIdentity();
 
-          glBegin(GL_TRIANGLES);
+          glBegin(GL_POINTS);
           glColor3f(1.f, 1.f, 1.f);
           glVertex3f(-0.8f, -0.6f, 0.f);
+          glEnd();
+
+          glBegin(GL_POINTS);
           glColor3f(1.f, 1.f, 1.f);
           glVertex3f(0.8f, -0.6f, 0.f);
+          glEnd();
+
+          glBegin(GL_POINTS);
           glColor3f(1.f, 1.f, 1.f);
           glVertex3f(0.f, 0.8f, 0.f);
           glEnd();
