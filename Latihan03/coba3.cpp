@@ -11,25 +11,26 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         glfwSetWindowShouldClose(window, GL_TRUE);
     else //  Right arrow - increase rotation by 5 degree
         if (key == GLFW_KEY_RIGHT)
-            rotate_y += 5;
-
-        //  Left arrow - decrease rotation by 5 degree
+            rotate_x_kanan += 45;
+        
         else if (key == GLFW_KEY_LEFT)
-            rotate_y -= 5;
+            rotate_x_kiri += 5;
 
         else if (key == GLFW_KEY_UP)
-            rotate_x += 5;
+            rotate_y_atas += 45;
 
         else if (key == GLFW_KEY_DOWN)
-            rotate_x -= 5;
+            rotate_y_bawah += 45;
  
 
 }
 
 // Global Variables
 // ----------------------------------------------------------
-double rotate_y=0; 
-double rotate_x=0;
+double rotate_y_atas=0; 
+double rotate_y_bawah=0; 
+double rotate_x_kanan=0;
+double rotate_x_kiri=0;
 
 int main(void)
 {
@@ -61,19 +62,27 @@ int main(void)
         glLoadIdentity();
         
         // Rotate when user changes rotate_x and rotate_y
-        glRotatef( rotate_x, 1.0, 0.0, 0.0 );
-        glRotatef( rotate_y, 0.0, 1.0, 0.0 );
+        
 
-        //Multi-colored side - FRONT
-        glBegin(GL_POLYGON);
+        //Red side - FRONT
+        for(int i=-1;i<=1;i++) {
+            for(int j=-1;j<=1;j++) {
+                glBegin(GL_POLYGON);
+                if(x>0) glRotatef( rotate_x_kanan, 1.0, 0.0, 0.0 );
+                else if(x<0)  glRotatef( rotate_x_kiri, 1.0, 0.0, 0.0 );
+                if(y>0) glRotatef( rotate_y_atas, 0.0, 1.0, 0.0 );
+                else if(y<0) glRotatef( rotate_y_bawah, 0.0, 1.0, 0.0 );
+                
+                glColor3f( 1.0, 0.0, 0.0 );     
+                glVertex3f(  i+0.4, j-0.4, -1.0 );
+                glVertex3f(  i+0.4,  j+0.4, -1.0 );
+                glVertex3f( i-0.4,  j+0.4, -1.0 );
+                glVertex3f( i-0.4, j-0.4, -1.0 );
 
-        glColor3f( 1.0, 0.0, 0.0 );     glVertex3f(  0.5, -0.5, -0.5 );      // P1 is red
-        glColor3f( 0.0, 1.0, 0.0 );     glVertex3f(  0.5,  0.5, -0.5 );      // P2 is green
-        glColor3f( 0.0, 0.0, 1.0 );     glVertex3f( -0.5,  0.5, -0.5 );      // P3 is blue
-        glColor3f( 1.0, 0.0, 1.0 );     glVertex3f( -0.5, -0.5, -0.5 );      // P4 is purple
-
-        glEnd();
-
+                glEnd();
+            }
+        }
+/*
         // White side - BACK
         glBegin(GL_POLYGON);
         glColor3f(   1.0,  1.0, 1.0 );
@@ -118,7 +127,7 @@ int main(void)
         glVertex3f( -0.5, -0.5,  0.5 );
         glVertex3f( -0.5, -0.5, -0.5 );
         glEnd();
-
+ */
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
