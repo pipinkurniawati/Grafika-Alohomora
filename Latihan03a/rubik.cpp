@@ -76,8 +76,10 @@ void drawCube(float x, float y, float z, float a)
     glColorPointer(3, GL_FLOAT, 0, colors);
 
     /* Send data : 24 vertices */
+    glPushMatrix();
     glDrawArrays(GL_QUADS, 0, 24);
-
+    glPopMatrix();
+    
     /* Cleanup states */
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);

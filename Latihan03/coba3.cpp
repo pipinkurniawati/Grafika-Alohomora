@@ -1,15 +1,16 @@
 #include "GLFW/glfw3.h"
 #include <stdlib.h>
 #include <stdio.h>
+
 static void error_callback(int error, const char* description)
 {
     fputs(description, stderr);
 }
 
-// Global Variables
-// ----------------------------------------------------------
-double rotate_y=0; 
-double rotate_x=0;
+double rotate_y_atas=0; 
+double rotate_y_bawah=0; 
+double rotate_x_kanan=0;
+double rotate_x_kiri=0;
 
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -21,7 +22,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
             rotate_x_kanan += 45;
         
         else if (key == GLFW_KEY_LEFT)
-            rotate_x_kiri += 5;
+            rotate_x_kiri += 45;
 
         else if (key == GLFW_KEY_UP)
             rotate_y_atas += 45;
@@ -32,23 +33,13 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 
 }
 
-<<<<<<< HEAD
-// Global Variables
-// ----------------------------------------------------------
-double rotate_y_atas=0; 
-double rotate_y_bawah=0; 
-double rotate_x_kanan=0;
-double rotate_x_kiri=0;
-
-=======
->>>>>>> 554e725be80ebe5ce15e2ba78e1c5ff2fcf036c2
 int main(void)
 {
     GLFWwindow* window;
     glfwSetErrorCallback(error_callback);
     if (!glfwInit())
         exit(EXIT_FAILURE);
-    window = glfwCreateWindow(640, 480, "Triangle", NULL, NULL);
+    window = glfwCreateWindow(1280, 640, "Triangle", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -81,18 +72,22 @@ int main(void)
         glPushMatrix();
         for(int i=-1;i<=1;i++) {
             for(int j=-1;j<=1;j++) {
-                if(x>0) glRotatef( rotate_x_kanan, 1.0, 0.0, 0.0 );
-                else if(x<0)  glRotatef( rotate_x_kiri, 1.0, 0.0, 0.0 );
-                if(y>0) glRotatef( rotate_y_atas, 0.0, 1.0, 0.0 );
-                else if(y<0) glRotatef( rotate_y_bawah, 0.0, 1.0, 0.0 );
+                if(i>0) glRotatef( rotate_x_kanan, 1.0, 0.0, 0.0 );
+                else if(i<0)  glRotatef( rotate_x_kiri, 1.0, 0.0, 0.0 );
+                
+                if(j>0) glRotatef( rotate_y_atas, 0.0, 1.0, 0.0 );
+                else if(j<0) glRotatef( rotate_y_bawah, 0.0, 1.0, 0.0 );
 
-                glBegin(GL_POLYGON);
+                glBegin(GL_QUADS);
                 
                 glColor3f( 1.0, 0.0, 0.0 );     
-                glVertex3f(  i+0.4, j-0.4, -1.0 );
-                glVertex3f(  i+0.4,  j+0.4, -1.0 );
-                glVertex3f( i-0.4,  j+0.4, -1.0 );
-                glVertex3f( i-0.4, j-0.4, -1.0 );
+                glVertex3f(  (i*0.8)+0.3, (j*0.8)-0.3, -1.0 );
+                glColor3f( 1.0, 1.0, 0.0 );  
+                glVertex3f(  (i*0.8)+0.3, (j*0.8)+0.3, -1.0 );
+                glColor3f( 0.0, 1.0, 0.0 );  
+                glVertex3f( (i*0.8)-0.3,  (j*0.8)+0.3, -1.0 );
+                glColor3f( 0.0, 0.0, 1.0 );  
+                glVertex3f( (i*0.8)-0.3, (j*0.8)-0.3, -1.0 );
 
                 glEnd();
             }
