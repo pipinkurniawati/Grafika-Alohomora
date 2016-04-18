@@ -43,7 +43,7 @@ GLFWwindow* initWindow(const int resX, const int resY)
     return window;
 }
 
-void drawCube(float x, float y, float z)
+void drawCube(float x, float y, float z, float a)
 {
     GLfloat vertices[] =
     {
@@ -65,9 +65,9 @@ void drawCube(float x, float y, float z)
         1, 0, 1,   1, 0, 1,   1, 0, 1,   1, 0, 1
     };
 
-    static float alpha = 0;
+    static float alpha = a;
     //attempt to rotate cube
-    //glRotatef(alpha, 1, 1, 0);
+    glRotatef(alpha, 0, 0, 1);
 
     /* We have a color array and a vertex array */
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -81,7 +81,6 @@ void drawCube(float x, float y, float z)
     /* Cleanup states */
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
-    alpha += 0.0001;
 }
 
 void display( GLFWwindow* window )
@@ -107,7 +106,7 @@ void display( GLFWwindow* window )
         for (int i=-1; i<2; i++){
         	for (int j=-1; j<2; j++){
         		for (int k=-1; k<2; k++){
-        			drawCube((float)i*0.7f, (float)j*0.7f, (float)k*0.7f);
+        			drawCube((float)i*0.7f, (float)j*0.7f, (float)k*0.7f, 0);
         		}
         	}
         }

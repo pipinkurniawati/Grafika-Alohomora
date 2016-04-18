@@ -5,6 +5,13 @@ static void error_callback(int error, const char* description)
 {
     fputs(description, stderr);
 }
+
+// Global Variables
+// ----------------------------------------------------------
+double rotate_y=0; 
+double rotate_x=0;
+
+
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
@@ -26,11 +33,6 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 
 }
 
-// Global Variables
-// ----------------------------------------------------------
-double rotate_y=0; 
-double rotate_x=0;
-
 int main(void)
 {
     GLFWwindow* window;
@@ -46,6 +48,9 @@ int main(void)
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
     glfwSetKeyCallback(window, key_callback);
+
+    glEnable(GL_DEPTH_TEST);
+
     while (!glfwWindowShouldClose(window))
     {
         float ratio;
@@ -53,13 +58,14 @@ int main(void)
         glfwGetFramebufferSize(window, &width, &height);
         ratio = width / (float) height;
         glViewport(0, 0, width, height);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         
+        glPushMatrix();
         // Rotate when user changes rotate_x and rotate_y
         glRotatef( rotate_x, 1.0, 0.0, 0.0 );
         glRotatef( rotate_y, 0.0, 1.0, 0.0 );
@@ -73,7 +79,13 @@ int main(void)
         glColor3f( 1.0, 0.0, 1.0 );     glVertex3f( -0.5, -0.5, -0.5 );      // P4 is purple
 
         glEnd();
+        glPopMatrix();
 
+
+        glPushMatrix();
+        // Rotate when user changes rotate_x and rotate_y
+        glRotatef( rotate_x, 1.0, 0.0, 0.0 );
+        glRotatef( rotate_y, 0.0, 1.0, 0.0 );
         // White side - BACK
         glBegin(GL_POLYGON);
         glColor3f(   1.0,  1.0, 1.0 );
@@ -82,6 +94,7 @@ int main(void)
         glVertex3f( -0.5,  0.5, 0.5 );
         glVertex3f( -0.5, -0.5, 0.5 );
         glEnd();
+        glPopMatrix();
 
         // Purple side - RIGHT
         glBegin(GL_POLYGON);
@@ -118,6 +131,7 @@ int main(void)
         glVertex3f( -0.5, -0.5,  0.5 );
         glVertex3f( -0.5, -0.5, -0.5 );
         glEnd();
+        
 
         glfwSwapBuffers(window);
         glfwPollEvents();
