@@ -16,7 +16,7 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
         if(key == GLFW_KEY_ESCAPE)
             glfwSetWindowShouldClose(window, GL_TRUE);
         else //  Right arrow - increase rotation by 5 degree
-	        if (key == GLFW_KEY_D)
+	        if (key == GLFW_KEY_D) 
             	rotate_x_kanan += 45;
 	        else if (key == GLFW_KEY_A)
 	            rotate_x_kiri += 45;
@@ -63,7 +63,7 @@ GLFWwindow* initWindow(const int resX, const int resY)
     return window;
 }
 
-void drawCube(float x, float y, float z, float a)
+GLfloat* drawCube(float x, float y, float z, float a)
 {
     GLfloat vertices[] =
     {
@@ -110,6 +110,8 @@ void drawCube(float x, float y, float z, float a)
     /* Cleanup states */
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
+
+    return vertices;
 }
 
 void display( GLFWwindow* window )
@@ -132,10 +134,12 @@ void display( GLFWwindow* window )
         glMatrixMode(GL_MODELVIEW_MATRIX);
         glTranslatef(0,0,-5);
 
+        GLfloat* cubes[3][3][3];
+
         for (int i=-1; i<2; i++){
         	for (int j=-1; j<2; j++){
         		for (int k=-1; k<2; k++){
-        			drawCube((float)i*0.7f, (float)j*0.7f, (float)k*0.7f, 0);
+        			cubes[i+1][j+1][k+1] = drawCube((float)i*0.7f, (float)j*0.7f, (float)k*0.7f, 0);
         		}
         	}
         }
