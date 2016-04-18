@@ -3,12 +3,32 @@
 
 #include <cstdio>
 
+double rotate_y_atas=0; 
+double rotate_y_bawah=0; 
+double rotate_x_kanan=0;
+double rotate_x_kiri=0;
+double rotate_z_depan=0;
+double rotate_z_belakang=0;
+
 void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if(action == GLFW_PRESS)
         if(key == GLFW_KEY_ESCAPE)
             glfwSetWindowShouldClose(window, GL_TRUE);
-}
+        else //  Right arrow - increase rotation by 5 degree
+	        if (key == GLFW_KEY_D)
+            	rotate_x_kanan += 45;
+	        else if (key == GLFW_KEY_A)
+	            rotate_x_kiri += 45;
+	        else if (key == GLFW_KEY_W)
+	            rotate_y_atas += 45;
+	        else if (key == GLFW_KEY_X)
+	            rotate_y_bawah += 45;
+	        else if (key == GLFW_KEY_C)
+	            rotate_z_depan += 45;
+	        else if (key == GLFW_KEY_Z)
+	            rotate_z_belakang += 45;
+	}
 
 GLFWwindow* initWindow(const int resX, const int resY)
 {
@@ -65,9 +85,17 @@ void drawCube(float x, float y, float z, float a)
         1, 0, 1,   1, 0, 1,   1, 0, 1,   1, 0, 1
     };
 
-    static float alpha = a;
+    glPushMatrix();
+
     //attempt to rotate cube
-    glRotatef(alpha, 0, 0, 1);
+    if(x>0) glRotatef( rotate_x_kanan, 1.0, 0.0, 0.0 );
+    else if(x<0)  glRotatef( rotate_x_kiri, 1.0, 0.0, 0.0 );
+    
+    if(y>0) glRotatef( rotate_y_atas, 0.0, 1.0, 0.0 );
+    else if(y<0) glRotatef( rotate_y_bawah, 0.0, 1.0, 0.0 );
+
+    if(z>0) glRotatef( rotate_z_depan, 0.0, 0.0, 1.0 );
+    else if(z<0) glRotatef( rotate_z_belakang, 0.0, 0.0, 1.0 );
 
     /* We have a color array and a vertex array */
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -76,10 +104,9 @@ void drawCube(float x, float y, float z, float a)
     glColorPointer(3, GL_FLOAT, 0, colors);
 
     /* Send data : 24 vertices */
-    glPushMatrix();
     glDrawArrays(GL_QUADS, 0, 24);
     glPopMatrix();
-    
+
     /* Cleanup states */
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
