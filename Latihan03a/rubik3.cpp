@@ -2,6 +2,7 @@
 #include "GLFW/glfw3.h"
 
 #include <cstdio>
+#include <bits/stdc++.h>
 
 double rotate_y_atas=0; 
 double rotate_y_bawah=0; 
@@ -9,6 +10,62 @@ double rotate_x_kanan=0;
 double rotate_x_kiri=0;
 double rotate_z_depan=0;
 double rotate_z_belakang=0;
+
+typedef unsigned char BYTE;
+
+GLuint texture;
+
+GLuint LoadTextureRAW( const char * filename, int wrap )
+{
+    int width, height;
+    BYTE * data;
+    FILE * file;
+
+    // open texture data
+    file = fopen( filename, "rb" );
+    if ( file == NULL ) return 0;
+
+    // allocate buffer
+    width = 256;
+    height = 256;
+    data = (BYTE*) malloc(width * height*3);
+
+    // read texture data
+    fread( data, width * height * 3, 1, file );
+    fclose( file );
+
+    // allocate a texture name
+    glGenTextures( 1, &texture );
+
+    // select our current texture
+    glBindTexture( GL_TEXTURE_2D, texture );
+
+    // select modulate to mix texture with color for shading
+    //glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );\
+
+    // build our texture mipmaps
+    gluBuild2DMipmaps( GL_TEXTURE_2D, 3, width, height,
+                       GL_RGB, GL_UNSIGNED_BYTE, data );
+
+
+    // when texture area is small, bilinear filter the closest mipmap
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                     GL_LINEAR_MIPMAP_NEAREST );
+    // when texture area is large, bilinear filter the first mipmap
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+
+    // if wrap is true, the texture wraps over at the edges (repeat)
+    //       ... false, the texture ends at the edges (clamp)
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
+                     wrap ? GL_REPEAT : GL_CLAMP );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
+                     wrap ? GL_REPEAT : GL_CLAMP );
+    // free buffer
+    free( data );
+
+    return texture;
+}
+
 
 void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -56,8 +113,15 @@ GLFWwindow* initWindow(const int resX, const int resY)
     printf("Renderer: %s\n", glGetString(GL_RENDERER));
     printf("OpenGL version supported %s\n", glGetString(GL_VERSION));
 
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); 
+    glClearDepth(1.0f);    
     glEnable(GL_DEPTH_TEST); // Depth Testing
     glDepthFunc(GL_LEQUAL);
+    glShadeModel(GL_SMOOTH); 
+    glEnable( GL_TEXTURE_2D );  
+    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+    // load our texture
+    texture = LoadTextureRAW( "texture.bmp", true);
     glDisable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     return window;
@@ -98,6 +162,7 @@ GLfloat* drawCube(float x, float y, float z, float a)
     else if(z<0) glRotatef( rotate_z_belakang, 0.0, 0.0, 1.0 );
 
     /* We have a color array and a vertex array */
+    glBindTexture(GL_TEXTURE_2D, texture);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
     glVertexPointer(3, GL_FLOAT, 0, vertices);
