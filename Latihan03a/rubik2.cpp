@@ -67,7 +67,7 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
             glfwSetWindowShouldClose(window, GL_TRUE);
         else //  Right arrow - increase rotation by 5 degree
 	        if (key == GLFW_KEY_D) {
-            	rotate_x_kanan += 90;
+            	//rotate_x_kanan += 90;
                 int i = 2;
                 for (int j=0; j<3; j++){
                     for (int k=0; k<3; k++){
@@ -108,7 +108,7 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
                     }
                 }
 	        } else if (key == GLFW_KEY_A) {
-	            rotate_x_kiri += 90;
+	            //rotate_x_kiri += 90;
                 int i = 0;
                 for (int j=0; j<3; j++){
                     for (int k=0; k<3; k++){
@@ -149,7 +149,7 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
                     }
                 }
 	        } else if (key == GLFW_KEY_W) {
-	            rotate_y_atas += 90;
+	            //rotate_y_atas += 90;
                 int j = 2;
                 for (int i=0; i<3; i++){
                     for (int k=0; k<3; k++){
@@ -190,7 +190,7 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
                     }
                 }
 	        } else if (key == GLFW_KEY_X) {
-	            rotate_y_bawah += 90;
+	            //rotate_y_bawah += 90;
                 int j = 0;
                 for (int i=0; i<3; i++){
                     for (int k=0; k<3; k++){
@@ -374,8 +374,7 @@ void drawCube(Cube c)
 
     /* Send data : 24 vertices */
     glDrawArrays(GL_QUADS, 0, 24);
-    cout << "masuk" << endl;
-    
+
     /* Cleanup states */
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
