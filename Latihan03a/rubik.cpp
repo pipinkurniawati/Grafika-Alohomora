@@ -20,6 +20,10 @@ unsigned char * data;
 
 GLuint image = loadBMP_custom("./my_texture.bmp");
 
+double rotate_x = 0;
+double rotate_y = 0;
+double rotate_z = 0;
+
 typedef struct {
     int position_x;
     int position_y;
@@ -274,6 +278,13 @@ GLfloat* drawCube(float x, float y, float z, float a)
     /*glRotatef(rotate_x, matrix_cube[x][y][z].position_x, 0.0, 0.0 );
     glRotatef(rotate_y, 0.0, matrix_cube[x][y][z].position_y, 0.0 );
     glRotatef(rotate_z, 0.0, 0.0, matrix_cube[x][y][z].position_z );*/
+    int x1 = x/0.7;
+    int y1 = y/0.7;
+    int z1 = z/0.7;
+
+    glRotatef(rotate_x, matrix_cube[x1][y1][z1].position_x, 0.0, 0.0 );
+    glRotatef(rotate_y, 0.0, matrix_cube[x1][y1][z1].position_y, 0.0 );
+    glRotatef(rotate_z, 0.0, 0.0, matrix_cube[x1][y1][z1].position_z );
 
     /* We have a color array and a vertex array */
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -333,6 +344,7 @@ void display( GLFWwindow* window )
 
 int main(int argc, char** argv)
 {
+    init();
     GLFWwindow* window = initWindow(1024, 620);
     if( NULL != window )
     {
