@@ -10,6 +10,16 @@ double rotate_x_kiri=0;
 double rotate_z_depan=0;
 double rotate_z_belakang=0;
 
+// Data read from the header of the BMP file
+unsigned char header[54]; // Each BMP file begins by a 54-bytes header
+unsigned int dataPos;     // Position in the file where the actual data begins
+unsigned int width, height;
+unsigned int imageSize;   // = width*height*3
+// Actual RGB data
+unsigned char * data;
+
+GLuint image = loadBMP_custom("./my_texture.bmp");
+
 typedef struct {
     int position_x;
     int position_y;
@@ -74,15 +84,122 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
                     }
                 }
             }
-            else if (key == GLFW_KEY_A)
+            else if (key == GLFW_KEY_A) {
+            	for(int i=-1;i<=1;i++) {
+                    for(int j=-1;j<=1;j++) {
+                        for(int k=-1;k<=1;k++) {
+                            if(matrix_cube[i][j][k].position_x < 0) {
+                                if(matrix_cube[i][j][k].position_y == -1 && matrix_cube[i][j][k].position_z == 1) {
+                                    matrix_cube[i][j][k].position_y = 1;
+                                }
+                                else if(matrix_cube[i][j][k].position_y == 1 && matrix_cube[i][j][k].position_z == 1) {
+                                    matrix_cube[i][j][k].position_z = -1;
+                                }
+                                else if(matrix_cube[i][j][k].position_y == 1 && matrix_cube[i][j][k].position_z == -1) {
+                                    matrix_cube[i][j][k].position_y = -1;
+                                }
+                                else if(matrix_cube[i][j][k].position_y == -1 && matrix_cube[i][j][k].position_z == -1) {
+                                    matrix_cube[i][j][k].position_z = 1;
+                                }
+                            }
+                        }
+                    }
+                }	
+            }
                 
-            else if (key == GLFW_KEY_W)
+            else if (key == GLFW_KEY_W) {
+            	for(int i=-1;i<=1;i++) {
+                    for(int j=-1;j<=1;j++) {
+                        for(int k=-1;k<=1;k++) {
+                            if(matrix_cube[i][j][k].position_y > 0) {
+                                if(matrix_cube[i][j][k].position_x== -1 && matrix_cube[i][j][k].position_z == 1) {
+                                    matrix_cube[i][j][k].position_x = 1;
+                                }
+                                else if(matrix_cube[i][j][k].position_x == 1 && matrix_cube[i][j][k].position_z == 1) {
+                                    matrix_cube[i][j][k].position_z = -1;
+                                }
+                                else if(matrix_cube[i][j][k].position_x == 1 && matrix_cube[i][j][k].position_z == -1) {
+                                    matrix_cube[i][j][k].position_x = -1;
+                                }
+                                else if(matrix_cube[i][j][k].position_x == -1 && matrix_cube[i][j][k].position_z == -1) {
+                                    matrix_cube[i][j][k].position_z = 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
                 
-            else if (key == GLFW_KEY_X)
+            else if (key == GLFW_KEY_X) {
+            	for(int i=-1;i<=1;i++) {
+                    for(int j=-1;j<=1;j++) {
+                        for(int k=-1;k<=1;k++) {
+                            if(matrix_cube[i][j][k].position_y < 0) {
+                                if(matrix_cube[i][j][k].position_x== -1 && matrix_cube[i][j][k].position_z == 1) {
+                                    matrix_cube[i][j][k].position_x = 1;
+                                }
+                                else if(matrix_cube[i][j][k].position_x == 1 && matrix_cube[i][j][k].position_z == 1) {
+                                    matrix_cube[i][j][k].position_z = -1;
+                                }
+                                else if(matrix_cube[i][j][k].position_x == 1 && matrix_cube[i][j][k].position_z == -1) {
+                                    matrix_cube[i][j][k].position_x = -1;
+                                }
+                                else if(matrix_cube[i][j][k].position_x == -1 && matrix_cube[i][j][k].position_z == -1) {
+                                    matrix_cube[i][j][k].position_z = 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
                 
-            else if (key == GLFW_KEY_C)
+            else if (key == GLFW_KEY_C) {
+            	for(int i=-1;i<=1;i++) {
+                    for(int j=-1;j<=1;j++) {
+                        for(int k=-1;k<=1;k++) {
+                            if(matrix_cube[i][j][k].position_z > 0) {
+                                if(matrix_cube[i][j][k].position_x== -1 && matrix_cube[i][j][k].position_y == 1) {
+                                    matrix_cube[i][j][k].position_x = 1;
+                                }
+                                else if(matrix_cube[i][j][k].position_x == 1 && matrix_cube[i][j][k].position_y == 1) {
+                                    matrix_cube[i][j][k].position_y = -1;
+                                }
+                                else if(matrix_cube[i][j][k].position_x == 1 && matrix_cube[i][j][k].position_y == -1) {
+                                    matrix_cube[i][j][k].position_x = -1;
+                                }
+                                else if(matrix_cube[i][j][k].position_x == -1 && matrix_cube[i][j][k].position_y == -1) {
+                                    matrix_cube[i][j][k].position_y = 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
                 
-            else if (key == GLFW_KEY_Z)
+            else if (key == GLFW_KEY_Z) {
+            	for(int i=-1;i<=1;i++) {
+                    for(int j=-1;j<=1;j++) {
+                        for(int k=-1;k<=1;k++) {
+                            if(matrix_cube[i][j][k].position_z < 0) {
+                                if(matrix_cube[i][j][k].position_x== -1 && matrix_cube[i][j][k].position_y == 1) {
+                                    matrix_cube[i][j][k].position_x = 1;
+                                }
+                                else if(matrix_cube[i][j][k].position_x == 1 && matrix_cube[i][j][k].position_y == 1) {
+                                    matrix_cube[i][j][k].position_y = -1;
+                                }
+                                else if(matrix_cube[i][j][k].position_x == 1 && matrix_cube[i][j][k].position_y == -1) {
+                                    matrix_cube[i][j][k].position_x = -1;
+                                }
+                                else if(matrix_cube[i][j][k].position_x == -1 && matrix_cube[i][j][k].position_y == -1) {
+                                    matrix_cube[i][j][k].position_y = 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            
+            }
             
                 
 	}
@@ -154,9 +271,9 @@ GLfloat* drawCube(float x, float y, float z, float a)
     if(z>0) glRotatef( rotate_z_depan, 0.0, 0.0, 1.0 );
     else if(z<0) glRotatef( rotate_z_belakang, 0.0, 0.0, 1.0 );
 */
-    glRotatef(rotate_x, matrix_cube[x][y][z].position_x, 0.0, 0.0 );
+    /*glRotatef(rotate_x, matrix_cube[x][y][z].position_x, 0.0, 0.0 );
     glRotatef(rotate_y, 0.0, matrix_cube[x][y][z].position_y, 0.0 );
-    glRotatef(rotate_z, 0.0, 0.0, matrix_cube[x][y][z].position_z );
+    glRotatef(rotate_z, 0.0, 0.0, matrix_cube[x][y][z].position_z );*/
 
     /* We have a color array and a vertex array */
     glEnableClientState(GL_VERTEX_ARRAY);
