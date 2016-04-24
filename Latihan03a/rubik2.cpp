@@ -46,6 +46,7 @@ int main(int argc, char** argv)
 {
     GLFWwindow* window = initWindow(1024, 620);
     
+    // Initiate cubes
     for (int i=0; i<3; i++){
         for (int j=0; j<3; j++){
             for (int k=0; k<3; k++){
@@ -68,269 +69,293 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
     if(action == GLFW_PRESS)
         if(key == GLFW_KEY_ESCAPE)
             glfwSetWindowShouldClose(window, GL_TRUE);
-        else //  Right arrow - increase rotation by 5 degree
-	        if (key == GLFW_KEY_D) {
-            	//rotate_x_kanan += 90;
-                int i = 2;
-                for (int j=0; j<3; j++){
-                    for (int k=0; k<3; k++){
-                        Cube temp;
-                        temp.o = SIZE;
-                        temp.x = OFFSET;
-                        temp.y = 0;
-                        temp.z = 0;
-                        if (cubes[i][j][k].y==0){
-                            if (cubes[i][j][k].z<0){
-                                temp.y=OFFSET;
-                                temp.z=0;
-                            } else if (cubes[i][j][k].z>0){
-                                temp.y=-OFFSET;
-                                temp.z=0;
-                            }
-                        } else if (cubes[i][j][k].z==0){
-                            if (cubes[i][j][k].y<0){
-                                temp.z=-OFFSET;
-                                temp.y=0;
-                            } else if (cubes[i][j][k].y>0){
-                                temp.z=OFFSET;
-                                temp.y=0;
-                            }
-                        } else {
-                            if (cubes[i][j][k].z>0 && cubes[i][j][k].y>0){
-                                temp.y=-OFFSET;
-                                temp.z=OFFSET;
-                            } else if (cubes[i][j][k].z>0 && cubes[i][j][k].y<0){
-                                temp.z=-OFFSET;
-                                temp.y=-OFFSET;
-                            } else if (cubes[i][j][k].z<0 && cubes[i][j][k].y<0){
-                                temp.y=OFFSET;
-                                temp.z=-OFFSET;
-                            } else if (cubes[i][j][k].z<0 && cubes[i][j][k].y>0) {
-                                temp.z=OFFSET;
-                                temp.y=OFFSET;
-                            }
-                        }
-                        cubes[i][j][k] = copyCube(temp);
-                    }
-                }
-	        } else if (key == GLFW_KEY_A) {
-	            //rotate_x_kiri += 90;
-                int i = 0;
-                for (int j=0; j<3; j++){
-                    for (int k=0; k<3; k++){
-                        Cube temp;
-                        temp.o = SIZE;
-                        temp.x = -OFFSET;
-                        temp.y = 0;
-                        temp.z = 0;
-                        if (cubes[i][j][k].y==0){
-                            if (cubes[i][j][k].z<0){
-                                temp.y=OFFSET;
-                                temp.z=0;
-                            } else if (cubes[i][j][k].z>0) {
-                                temp.y=-OFFSET;
-                                temp.z=0;
-                            }
-                        } else if (cubes[i][j][k].z==0){
-                            if (cubes[i][j][k].y<0){
-                                temp.z=-OFFSET;
-                                temp.y=0;
-                            } else if (cubes[i][j][k].y>0) {
-                                temp.z=OFFSET;
-                                temp.y=0;
-                            }
-                        } else {
-                            if (cubes[i][j][k].z>0 && cubes[i][j][k].y>0){
-                                temp.y=-OFFSET;
-                                temp.z=OFFSET;
-                            } else if (cubes[i][j][k].z>0 && cubes[i][j][k].y<0){
-                                temp.z=-OFFSET;
-                                temp.y=-OFFSET;
-                            } else if (cubes[i][j][k].z<0 && cubes[i][j][k].y<0){
-                                temp.y=OFFSET;
-                                temp.z=-OFFSET;
-                            } else if (cubes[i][j][k].z<0 && cubes[i][j][k].y>0) {
-                                temp.z=OFFSET;
-                                temp.y=OFFSET;
-                            }
-                        }
-                        cubes[i][j][k] = copyCube(temp);
-                    }
-                }
-	        } else if (key == GLFW_KEY_W) {
-	            //rotate_y_atas += 90;
-                int j = 2;
-                for (int i=0; i<3; i++){
-                    for (int k=0; k<3; k++){
-                        Cube temp;
-                        temp.o = SIZE;
-                        temp.x = 0;
-                        temp.y = OFFSET;
-                        temp.z = 0;
-                        if (cubes[i][j][k].x==0){
-                            if (cubes[i][j][k].z<0){
-                                temp.x=-OFFSET;
-                                temp.z=0;
-                            } else if (cubes[i][j][k].z>0) {
-                                temp.x=OFFSET;
-                                temp.z=0;
-                            }
-                        } else if (cubes[i][j][k].z==0){
-                            if (cubes[i][j][k].x<0){
-                                temp.z=OFFSET;
-                                temp.x=0;
-                            } else if (cubes[i][j][k].x>0){
-                                temp.z=-OFFSET;
-                                temp.x=0;
-                            }
-                        } else {
-                            if (cubes[i][j][k].z>0 && cubes[i][j][k].x>0){
-                                temp.x=OFFSET;
-                                temp.z=-OFFSET;
-                            } else if (cubes[i][j][k].z>0 && cubes[i][j][k].x<0){
-                                temp.z=OFFSET;
-                                temp.x=OFFSET;
-                            } else if (cubes[i][j][k].z<0 && cubes[i][j][k].x<0){
-                                temp.x=-OFFSET;
-                                temp.z=OFFSET;
-                            } else if (cubes[i][j][k].z<0 && cubes[i][j][k].x>0) {
-                                temp.z=-OFFSET;
-                                temp.x=-OFFSET;
-                            }
-                        }
-                        cubes[i][j][k] = copyCube(temp);
-                    }
-                }
-	        } else if (key == GLFW_KEY_X) {
-	            //rotate_y_bawah += 90;
-                int j = 0;
-                for (int i=0; i<3; i++){
-                    for (int k=0; k<3; k++){
-                        Cube temp;
-                        temp.o = SIZE;
-                        temp.x = 0;
-                        temp.y = -OFFSET;
-                        temp.z = 0;
-                        if (cubes[i][j][k].x==0){
-                            if (cubes[i][j][k].z<0){
-                                temp.x=-OFFSET;
-                                temp.z=0;
-                            } else if (cubes[i][j][k].z>0){
-                                temp.x=OFFSET;
-                                temp.z=0;
-                            }
-                        } else if (cubes[i][j][k].z==0){
-                            if (cubes[i][j][k].x<0){
-                                temp.z=OFFSET;
-                                temp.x=0;
-                            } else if (cubes[i][j][k].x>0) {
-                                temp.z=-OFFSET;
-                                temp.x=0;
-                            }
-                        } else {
-                            if (cubes[i][j][k].z>0 && cubes[i][j][k].x>0){
-                                temp.x=OFFSET;
-                                temp.z=-OFFSET;
-                            } else if (cubes[i][j][k].z>0 && cubes[i][j][k].x<0){
-                                temp.z=OFFSET;
-                                temp.x=OFFSET;
-                            } else if (cubes[i][j][k].z<0 && cubes[i][j][k].x<0){
-                                temp.x=-OFFSET;
-                                temp.z=OFFSET;
-                            } else if (cubes[i][j][k].z<0 && cubes[i][j][k].x>0) {
-                                temp.z=-OFFSET;
-                                temp.x=-OFFSET;
-                            }
-                        }
-                        cubes[i][j][k] = copyCube(temp);
-                    }
-                }
-	        } else if (key == GLFW_KEY_C) {
-	            //rotate_z_depan += 90;
-                int k = 2;
-                for (int i=0; i<3; i++){
+        else
+	        if (key == GLFW_KEY_D) { // keypress D memutar rubiks bagian kanan
+            	rotate_x_kanan += 90;
+                for (int i=0; i<3; i++){ // cek satu per satu Cube di matrix cubes
                     for (int j=0; j<3; j++){
-                        Cube temp;
-                        temp.o = SIZE;
-                        temp.x = 0;
-                        temp.y = 0;
-                        temp.z = OFFSET;
-                        if (cubes[i][j][k].x==0){
-                            if (cubes[i][j][k].y<0){
-                                temp.x=-OFFSET;
-                                temp.y=0;
-                            } else if (cubes[i][j][k].y>0){
-                                temp.x=OFFSET;
-                                temp.y=0;
+                        for (int k=0; k<3; k++){
+                            Cube temp;
+                            temp.o = SIZE;
+                            temp.x = cubes[i][j][k].x;
+                            temp.y = cubes[i][j][k].y;
+                            temp.z = cubes[i][j][k].z;
+                            if (cubes[i][j][k].x>0){ // jika posisi cube di rubiks bagian kanan
+                                temp.x = OFFSET;
+                                if (cubes[i][j][k].y==0){ // jika posisi cube di tengah sumbu y
+                                    if (cubes[i][j][k].z<0){
+                                        temp.y=OFFSET;
+                                        temp.z=0;
+                                    } else if (cubes[i][j][k].z>0){ 
+                                        temp.y=-OFFSET;
+                                        temp.z=0;
+                                    }
+                                } else if (cubes[i][j][k].z==0){ // jika posisi cube di tengah sumbu z
+                                    if (cubes[i][j][k].y<0){
+                                        temp.z=-OFFSET;
+                                        temp.y=0;
+                                    } else if (cubes[i][j][k].y>0){
+                                        temp.z=OFFSET;
+                                        temp.y=0;
+                                    }
+                                } else { // jika posisi cube di corner
+                                    if (cubes[i][j][k].z>0 && cubes[i][j][k].y>0){
+                                        temp.y=-OFFSET;
+                                        temp.z=OFFSET;
+                                    } else if (cubes[i][j][k].z>0 && cubes[i][j][k].y<0){
+                                        temp.z=-OFFSET;
+                                        temp.y=-OFFSET;
+                                    } else if (cubes[i][j][k].z<0 && cubes[i][j][k].y<0){
+                                        temp.y=OFFSET;
+                                        temp.z=-OFFSET;
+                                    } else if (cubes[i][j][k].z<0 && cubes[i][j][k].y>0) {
+                                        temp.z=OFFSET;
+                                        temp.y=OFFSET;
+                                    }
+                                }
                             }
-                        } else if (cubes[i][j][k].y==0){
-                            if (cubes[i][j][k].x<0){
-                                temp.y=OFFSET;
-                                temp.x=0;
-                            } else if (cubes[i][j][k].x>0){
-                                temp.y=-OFFSET;
-                                temp.x=0;
-                            }
-                        } else {
-                            if (cubes[i][j][k].y>0 && cubes[i][j][k].x>0){
-                                temp.x=OFFSET;
-                                temp.y=-OFFSET;
-                            } else if (cubes[i][j][k].y>0 && cubes[i][j][k].x<0){
-                                temp.y=OFFSET;
-                                temp.x=OFFSET;
-                            } else if (cubes[i][j][k].y<0 && cubes[i][j][k].x<0){
-                                temp.x=-OFFSET;
-                                temp.y=OFFSET;
-                            } else if (cubes[i][j][k].y<0 && cubes[i][j][k].x>0) {
-                                temp.y=-OFFSET;
-                                temp.x=-OFFSET;
-                            }
+                            cubes[i][j][k] = copyCube(temp); // replace dengan posisi cube yg baru
                         }
-                        cubes[i][j][k] = copyCube(temp);
                     }
                 }
-	        } else if (key == GLFW_KEY_Z) {
-	            //rotate_z_belakang += 90;
-                int k = 0;
-                for (int i=0; i<3; i++){
+	        } else if (key == GLFW_KEY_A) { // keypress A memutar rubiks bagian kiri
+	            rotate_x_kiri += 90;
+                for (int i=0; i<3; i++){ // cek satu per satu Cube di matrix cubes
                     for (int j=0; j<3; j++){
-                        Cube temp;
-                        temp.o = SIZE;
-                        temp.x = 0;
-                        temp.y = 0;
-                        temp.z = -OFFSET;
-                        if (cubes[i][j][k].x==0){
-                            if (cubes[i][j][k].y<0){
-                                temp.x=-OFFSET;
-                                temp.y=0;
-                            } else if (cubes[i][j][k].y>0) {
-                                temp.x=OFFSET;
-                                temp.y=0;
+                        for (int k=0; k<3; k++){
+                            Cube temp;
+                            temp.o = SIZE;
+                            temp.x = cubes[i][j][k].x;
+                            temp.y = cubes[i][j][k].y;
+                            temp.z = cubes[i][j][k].z;
+                            if (cubes[i][j][k].x<0){ // jika posisi cube di rubiks bagian kiri
+                                temp.x = -OFFSET;
+                                if (cubes[i][j][k].y==0){ // jika posisi cube di tengah sumbu y
+                                    if (cubes[i][j][k].z<0){
+                                        temp.y=OFFSET;
+                                        temp.z=0;
+                                    } else if (cubes[i][j][k].z>0) {
+                                        temp.y=-OFFSET;
+                                        temp.z=0;
+                                    }
+                                } else if (cubes[i][j][k].z==0){ // jika posisi cube di tengah sumbu z
+                                    if (cubes[i][j][k].y<0){
+                                        temp.z=-OFFSET;
+                                        temp.y=0;
+                                    } else if (cubes[i][j][k].y>0) {
+                                        temp.z=OFFSET;
+                                        temp.y=0;
+                                    }
+                                } else { // jika posisi cube di corner
+                                    if (cubes[i][j][k].z>0 && cubes[i][j][k].y>0){
+                                        temp.y=-OFFSET;
+                                        temp.z=OFFSET;
+                                    } else if (cubes[i][j][k].z>0 && cubes[i][j][k].y<0){
+                                        temp.z=-OFFSET;
+                                        temp.y=-OFFSET;
+                                    } else if (cubes[i][j][k].z<0 && cubes[i][j][k].y<0){
+                                        temp.y=OFFSET;
+                                        temp.z=-OFFSET;
+                                    } else if (cubes[i][j][k].z<0 && cubes[i][j][k].y>0) {
+                                        temp.z=OFFSET;
+                                        temp.y=OFFSET;
+                                    }
+                                }
                             }
-                        } else if (cubes[i][j][k].y==0){
-                            if (cubes[i][j][k].x<0){
-                                temp.y=OFFSET;
-                                temp.x=0;
-                            } else if (cubes[i][j][k].x>0){
-                                temp.y=-OFFSET;
-                                temp.x=0;
-                            }
-                        } else {
-                            if (cubes[i][j][k].y>0 && cubes[i][j][k].x>0){
-                                temp.x=OFFSET;
-                                temp.y=-OFFSET;
-                            } else if (cubes[i][j][k].y>0 && cubes[i][j][k].x<0){
-                                temp.y=OFFSET;
-                                temp.x=OFFSET;
-                            } else if (cubes[i][j][k].y<0 && cubes[i][j][k].x<0){
-                                temp.x=-OFFSET;
-                                temp.y=OFFSET;
-                            } else if (cubes[i][j][k].y<0 && cubes[i][j][k].x>0) {
-                                temp.y=-OFFSET;
-                                temp.x=-OFFSET;
-                            }
+                            cubes[i][j][k] = copyCube(temp); // replace dengan posisi cube yg baru
                         }
-                        cubes[i][j][k] = copyCube(temp);
+                    }
+                }
+	        } else if (key == GLFW_KEY_W) { // keypress W memutar rubiks bagian atas
+	            rotate_y_atas += 90;
+                for (int i=0; i<3; i++){ // cek satu per satu Cube di matrix cubes
+                    for (int j=0; j<3; j++){
+                        for (int k=0; k<3; k++){
+                            Cube temp;
+                            temp.o = SIZE;
+                            temp.x = cubes[i][j][k].x;
+                            temp.y = cubes[i][j][k].y;
+                            temp.z = cubes[i][j][k].z;
+                            if (cubes[i][j][k].y>0){ // jika posisi cube di rubiks bagian atas
+                                temp.y = OFFSET;
+                                if (cubes[i][j][k].x==0){
+                                    if (cubes[i][j][k].z<0){
+                                        temp.x=-OFFSET;
+                                        temp.z=0;
+                                    } else if (cubes[i][j][k].z>0) {
+                                        temp.x=OFFSET;
+                                        temp.z=0;
+                                    }
+                                } else if (cubes[i][j][k].z==0){
+                                    if (cubes[i][j][k].x<0){
+                                        temp.z=OFFSET;
+                                        temp.x=0;
+                                    } else if (cubes[i][j][k].x>0){
+                                        temp.z=-OFFSET;
+                                        temp.x=0;
+                                    }
+                                } else { // jika posisi cube di corner
+                                    if (cubes[i][j][k].z>0 && cubes[i][j][k].x>0){
+                                        temp.x=OFFSET;
+                                        temp.z=-OFFSET;
+                                    } else if (cubes[i][j][k].z>0 && cubes[i][j][k].x<0){
+                                        temp.z=OFFSET;
+                                        temp.x=OFFSET;
+                                    } else if (cubes[i][j][k].z<0 && cubes[i][j][k].x<0){
+                                        temp.x=-OFFSET;
+                                        temp.z=OFFSET;
+                                    } else if (cubes[i][j][k].z<0 && cubes[i][j][k].x>0) {
+                                        temp.z=-OFFSET;
+                                        temp.x=-OFFSET;
+                                    }
+                                }
+                            }
+                            cubes[i][j][k] = copyCube(temp); // replace dengan posisi cube yg baru
+                        }
+                    }
+                }
+	        } else if (key == GLFW_KEY_X) { // keypress X memutar rubiks bawah
+	            rotate_y_bawah += 90;
+                for (int i=0; i<3; i++){ // cek satu per satu Cube di matrix cubes
+                    for (int j=0; j<3; j++){
+                        for (int k=0; k<3; k++){
+                            Cube temp;
+                            temp.o = SIZE;
+                            temp.x = cubes[i][j][k].x;
+                            temp.y = cubes[i][j][k].y;
+                            temp.z = cubes[i][j][k].z;
+                            if (cubes[i][j][k].y<0){ // jika posisi cube di rubiks bagian bawah
+                                temp.y = -OFFSET;
+                                if (cubes[i][j][k].x==0){
+                                    if (cubes[i][j][k].z<0){
+                                        temp.x=-OFFSET;
+                                        temp.z=0;
+                                    } else if (cubes[i][j][k].z>0) {
+                                        temp.x=OFFSET;
+                                        temp.z=0;
+                                    }
+                                } else if (cubes[i][j][k].z==0){
+                                    if (cubes[i][j][k].x<0){
+                                        temp.z=OFFSET;
+                                        temp.x=0;
+                                    } else if (cubes[i][j][k].x>0){
+                                        temp.z=-OFFSET;
+                                        temp.x=0;
+                                    }
+                                } else { // jika posisi cube di corner
+                                    if (cubes[i][j][k].z>0 && cubes[i][j][k].x>0){
+                                        temp.x=OFFSET;
+                                        temp.z=-OFFSET;
+                                    } else if (cubes[i][j][k].z>0 && cubes[i][j][k].x<0){
+                                        temp.z=OFFSET;
+                                        temp.x=OFFSET;
+                                    } else if (cubes[i][j][k].z<0 && cubes[i][j][k].x<0){
+                                        temp.x=-OFFSET;
+                                        temp.z=OFFSET;
+                                    } else if (cubes[i][j][k].z<0 && cubes[i][j][k].x>0) {
+                                        temp.z=-OFFSET;
+                                        temp.x=-OFFSET;
+                                    }
+                                }
+                            }
+                            cubes[i][j][k] = copyCube(temp); // replace dengan posisi cube yg baru
+                        }
+                    }
+                }
+	        } else if (key == GLFW_KEY_C) { // keypress C memutar rubiks bagian depan
+	            rotate_z_depan += 90;
+                for (int i=0; i<3; i++){ // cek satu per satu Cube di matrix cubes
+                    for (int j=0; j<3; j++){
+                        for(int k=0; k<3; k++){
+                            Cube temp;
+                            temp.o = SIZE;
+                            temp.x = cubes[i][j][k].x;
+                            temp.y = cubes[i][j][k].y;
+                            temp.z = cubes[i][j][k].z;
+                            if (cubes[i][j][k].z>0){ // jika posisi cube di rubiks bagian depan
+                                temp.z = OFFSET;
+                                if (cubes[i][j][k].x==0){
+                                    if (cubes[i][j][k].y<0){
+                                        temp.x=-OFFSET;
+                                        temp.y=0;
+                                    } else if (cubes[i][j][k].y>0){
+                                        temp.x=OFFSET;
+                                        temp.y=0;
+                                    }
+                                } else if (cubes[i][j][k].y==0){
+                                    if (cubes[i][j][k].x<0){
+                                        temp.y=OFFSET;
+                                        temp.x=0;
+                                    } else if (cubes[i][j][k].x>0){
+                                        temp.y=-OFFSET;
+                                        temp.x=0;
+                                    }
+                                } else { // jika posisi cube di corner
+                                    if (cubes[i][j][k].y>0 && cubes[i][j][k].x>0){
+                                        temp.x=OFFSET;
+                                        temp.y=-OFFSET;
+                                    } else if (cubes[i][j][k].y>0 && cubes[i][j][k].x<0){
+                                        temp.y=OFFSET;
+                                        temp.x=OFFSET;
+                                    } else if (cubes[i][j][k].y<0 && cubes[i][j][k].x<0){
+                                        temp.x=-OFFSET;
+                                        temp.y=OFFSET;
+                                    } else if (cubes[i][j][k].y<0 && cubes[i][j][k].x>0) {
+                                        temp.y=-OFFSET;
+                                        temp.x=-OFFSET;
+                                    }
+                                }
+                            }
+                            cubes[i][j][k] = copyCube(temp); // replace dengan posisi cube yg baru
+                        }
+                    }
+                }
+	        } else if (key == GLFW_KEY_Z) { // keypress Z memutar rubiks bagian belakang
+	            rotate_z_belakang += 90;
+                for (int i=0; i<3; i++){ // cek satu per satu Cube di matrix cubes
+                    for (int j=0; j<3; j++){
+                        for(int k=0; k<3; k++){
+                            Cube temp;
+                            temp.o = SIZE;
+                            temp.x = cubes[i][j][k].x;
+                            temp.y = cubes[i][j][k].y;
+                            temp.z = cubes[i][j][k].z;
+                            if (cubes[i][j][k].z<0){ // jika posisi cube di rubiks bagian belakang
+                                temp.z = -OFFSET;
+                                if (cubes[i][j][k].x==0){
+                                    if (cubes[i][j][k].y<0){
+                                        temp.x=-OFFSET;
+                                        temp.y=0;
+                                    } else if (cubes[i][j][k].y>0){
+                                        temp.x=OFFSET;
+                                        temp.y=0;
+                                    }
+                                } else if (cubes[i][j][k].y==0){
+                                    if (cubes[i][j][k].x<0){
+                                        temp.y=OFFSET;
+                                        temp.x=0;
+                                    } else if (cubes[i][j][k].x>0){
+                                        temp.y=-OFFSET;
+                                        temp.x=0;
+                                    }
+                                } else { // jika posisi cube di corner
+                                    if (cubes[i][j][k].y>0 && cubes[i][j][k].x>0){
+                                        temp.x=OFFSET;
+                                        temp.y=-OFFSET;
+                                    } else if (cubes[i][j][k].y>0 && cubes[i][j][k].x<0){
+                                        temp.y=OFFSET;
+                                        temp.x=OFFSET;
+                                    } else if (cubes[i][j][k].y<0 && cubes[i][j][k].x<0){
+                                        temp.x=-OFFSET;
+                                        temp.y=OFFSET;
+                                    } else if (cubes[i][j][k].y<0 && cubes[i][j][k].x>0) {
+                                        temp.y=-OFFSET;
+                                        temp.x=-OFFSET;
+                                    }
+                                }
+                            }
+                            cubes[i][j][k] = copyCube(temp); // replace dengan posisi cube yg baru
+                        }
                     }
                 }
             }
@@ -378,6 +403,7 @@ Cube initCube(float x, float y, float z, float o)
     c.y = y;
     c.z = z;
 
+    // Generate vertices
     c.vertices[0]= -o+x; c.vertices[1]= -o+y; c.vertices[2]= -o+z;
     c.vertices[3]=   -o+x; c.vertices[4]= -o+y; c.vertices[5]=  o+z;
     c.vertices[6]=   -o+x; c.vertices[7]=  o+y; c.vertices[8]=  o+z;
@@ -418,6 +444,7 @@ Cube copyCube(Cube copy){
     c.y = copy.y;
     c.z = copy.z;
 
+    // Generate vertices
     c.vertices[0]= -c.o+c.x; c.vertices[1]= -c.o+c.y; c.vertices[2]= -c.o+c.z;
     c.vertices[3]=   -c.o+c.x; c.vertices[4]= -c.o+c.y; c.vertices[5]=  c.o+c.z;
     c.vertices[6]=   -c.o+c.x; c.vertices[7]=  c.o+c.y; c.vertices[8]=  c.o+c.z;
@@ -454,37 +481,36 @@ Cube copyCube(Cube copy){
 void drawCube(Cube c)
 {
     glPushMatrix();
-    //cout << c.x << " " << c.y << " " << c.z << endl;
 
     if(c.x>0){
-        glTranslatef(-c.x, -c.y, -c.z);
-        glRotatef( rotate_x_kanan, 1.0, 0.0, 0.0 );
-        glTranslatef(c.x, c.y, c.z);
+        glTranslatef(c.x, c.y, c.z); // translate to center
+        glRotatef( rotate_x_kanan, 1.0, 0.0, 0.0 ); // rotate the cube
+        glTranslatef(-c.x, -c.y, -c.z); // translate back to initial position
         
     } else if(c.x<0){
-        glTranslatef(-c.x, -c.y, -c.z);
-        glRotatef( rotate_x_kiri, 1.0, 0.0, 0.0 );
         glTranslatef(c.x, c.y, c.z);
+        glRotatef( rotate_x_kiri, 1.0, 0.0, 0.0 );
+        glTranslatef(-c.x, -c.y, -c.z);
     }
     
     if(c.y>0){
-        glTranslatef(-c.x, -c.y, -c.z);
+        glTranslatef(c.x, c.y, c.z);
         glRotatef( rotate_y_atas, 0.0, 1.0, 0.0 );
-        glTranslatef(c.x, c.y, c.z);
-    } else if(c.y<0){
         glTranslatef(-c.x, -c.y, -c.z);
-        glRotatef( rotate_y_bawah, 0.0, 1.0, 0.0 );
+    } else if(c.y<0){
         glTranslatef(c.x, c.y, c.z);
+        glRotatef( rotate_y_bawah, 0.0, 1.0, 0.0 );
+        glTranslatef(-c.x, -c.y, -c.z);
     }
 
     if(c.z>0) {
-        glTranslatef(-c.x, -c.y, -c.z);
+        glTranslatef(c.x, c.y, c.z);
         glRotatef( rotate_z_depan, 0.0, 0.0, 1.0 );
-        glTranslatef(c.x, c.y, c.z);
-    } else if(c.z<0) {
         glTranslatef(-c.x, -c.y, -c.z);
-        glRotatef( rotate_z_belakang, 0.0, 0.0, 1.0 );
+    } else if(c.z<0) {
         glTranslatef(c.x, c.y, c.z);
+        glRotatef( rotate_z_belakang, 0.0, 0.0, 1.0 );
+        glTranslatef(-c.x, -c.y, -c.z);
     }
 
     /* We have a color array and a vertex array */
@@ -528,8 +554,7 @@ void display( GLFWwindow* window )
         for (int i=0; i<3; i++){
             for (int j=0; j<3; j++){
                 for (int k=0; k<3; k++){
-                    drawCube(cubes[i][j][k]);
-                    //cout << cubes[i][j][k].x << " " << cubes[i][j][k].y << " " << cubes[i][j][k].z << endl;
+                    drawCube(cubes[i][j][k]); // draw each cube
                 }
             }
         }
