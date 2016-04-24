@@ -10,13 +10,36 @@ double rotate_x_kiri=0;
 double rotate_z_depan=0;
 double rotate_z_belakang=0;
 
+typedef struct {
+    int position_x;
+    int position_y;
+    int position_z;
+
+    float x, y, z; // menentukan vektor rotasi
+} sc;
+
+sc matrix_cube[3][3][3];
+
+void init() {
+    for(int i=-1;i<=1;i++) {
+        for(int j=-1;j<=1;j++) {
+            for(int k=-1;k<=1;k++) {
+                matrix_cube[i][j][k].position_x = i;
+                matrix_cube[i][j][k].position_y = j;
+                matrix_cube[i][j][k].position_z = k;
+            }
+        }
+    }
+}
+
 void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if(action == GLFW_PRESS)
         if(key == GLFW_KEY_ESCAPE)
             glfwSetWindowShouldClose(window, GL_TRUE);
         else //  Right arrow - increase rotation by 5 degree
-	        if (key == GLFW_KEY_D) 
+	        /*
+            if (key == GLFW_KEY_D) 
             	rotate_x_kanan += 45;
 	        else if (key == GLFW_KEY_A)
 	            rotate_x_kiri += 45;
@@ -28,6 +51,40 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
 	            rotate_z_depan += 45;
 	        else if (key == GLFW_KEY_Z)
 	            rotate_z_belakang += 45;
+            */
+            if (key == GLFW_KEY_D) {
+                for(int i=-1;i<=1;i++) {
+                    for(int j=-1;j<=1;j++) {
+                        for(int k=-1;k<=1;k++) {
+                            if(matrix_cube[i][j][k].position_x > 0) {
+                                if(matrix_cube[i][j][k].position_y == -1 && matrix_cube[i][j][k].position_z == 1) {
+                                    matrix_cube[i][j][k].position_y = 1;
+                                }
+                                else if(matrix_cube[i][j][k].position_y == 1 && matrix_cube[i][j][k].position_z == 1) {
+                                    matrix_cube[i][j][k].position_z = -1;
+                                }
+                                else if(matrix_cube[i][j][k].position_y == 1 && matrix_cube[i][j][k].position_z == -1) {
+                                    matrix_cube[i][j][k].position_y = -1;
+                                }
+                                else if(matrix_cube[i][j][k].position_y == -1 && matrix_cube[i][j][k].position_z == -1) {
+                                    matrix_cube[i][j][k].position_z = 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else if (key == GLFW_KEY_A)
+                
+            else if (key == GLFW_KEY_W)
+                
+            else if (key == GLFW_KEY_X)
+                
+            else if (key == GLFW_KEY_C)
+                
+            else if (key == GLFW_KEY_Z)
+            
+                
 	}
 
 GLFWwindow* initWindow(const int resX, const int resY)
@@ -86,16 +143,20 @@ GLfloat* drawCube(float x, float y, float z, float a)
     };
 
     glPushMatrix();
-
+/*
     //attempt to rotate cube
     if(x>0) glRotatef( rotate_x_kanan, 1.0, 0.0, 0.0 );
-    else if(x<0)  glRotatef( rotate_x_kiri, 1.0, 0.0, 0.0 );
-    
+    else if(x<0) glRotatef( rotate_x_kiri, 1.0, 0.0, 0.0 );
+
     if(y>0) glRotatef( rotate_y_atas, 0.0, 1.0, 0.0 );
     else if(y<0) glRotatef( rotate_y_bawah, 0.0, 1.0, 0.0 );
 
     if(z>0) glRotatef( rotate_z_depan, 0.0, 0.0, 1.0 );
     else if(z<0) glRotatef( rotate_z_belakang, 0.0, 0.0, 1.0 );
+*/
+    glRotatef(rotate_x, matrix_cube[x][y][z].position_x, 0.0, 0.0 );
+    glRotatef(rotate_y, 0.0, matrix_cube[x][y][z].position_y, 0.0 );
+    glRotatef(rotate_z, 0.0, 0.0, matrix_cube[x][y][z].position_z );
 
     /* We have a color array and a vertex array */
     glEnableClientState(GL_VERTEX_ARRAY);
