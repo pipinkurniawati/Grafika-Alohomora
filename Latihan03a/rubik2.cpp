@@ -39,6 +39,39 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
         else //  Right arrow - increase rotation by 5 degree
 	        if (key == GLFW_KEY_D) {
             	rotate_x_kanan += 90;
+                for (int i=0; i<3; i++){
+                    for (int j=0; j<3; j++){
+                        for (int k=0; k<3; k++){
+                            if (cubes[i][j][k].y==0){
+                                if (cubes[i][j][k].z<0){
+                                    cubes[i][j][k].y-=0.7;
+                                    cubes[i][j][k].z=0;
+                                } else {
+                                    cubes[i][j][k].y+=0.7;
+                                    cubes[i][j][k].z=0;
+                                }
+                            } else if (cubes[i][j][k].z==0){
+                                if (cubes[i][j][k].y<0){
+                                    cubes[i][j][k].z-=0.7;
+                                    cubes[i][j][k].y=0;
+                                } else {
+                                    cubes[i][j][k].z+=0.7;
+                                    cubes[i][j][k].y=0;
+                                }
+                            } else {
+                                if (cubes[i][j][k].z>0 && cubes[i][j][k].y>0){
+                                    cubes[i][j][k].y-=1.4;
+                                } else if (cubes[i][j][k].z>0 && cubes[i][j][k].y<0){
+                                    cubes[i][j][k].z-=1.4;
+                                } else if (cubes[i][j][k].z<0 && cubes[i][j][k].y<0){
+                                    cubes[i][j][k].y+=1.4;
+                                } else {
+                                    cubes[i][j][k].z+=1.4;
+                                }
+                            }
+                        }
+                    }
+                }
 	        } else if (key == GLFW_KEY_A) {
 	            rotate_x_kiri += 90;
 	        } else if (key == GLFW_KEY_W) {
