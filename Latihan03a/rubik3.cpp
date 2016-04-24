@@ -121,7 +121,7 @@ GLFWwindow* initWindow(const int resX, const int resY)
     glEnable( GL_TEXTURE_2D );  
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     // load our texture
-    texture = LoadTextureRAW( "texture.bmp", true);
+    texture = LoadTextureRAW( "tekstur.bmp", true);
     glDisable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     return window;
@@ -162,17 +162,24 @@ GLfloat* drawCube(float x, float y, float z, float a)
     else if(z<0) glRotatef( rotate_z_belakang, 0.0, 0.0, 1.0 );
 
     /* We have a color array and a vertex array */
+    glTexCoord2d(0.0,0.0); glVertex2d(0.0,0.0);
+    glTexCoord2d(1.0,0.0); glVertex2d(1.0,0.0);
+    glTexCoord2d(1.0,1.0); glVertex2d(1.0,1.0);
+    glTexCoord2d(0.0,1.0); glVertex2d(0.0,1.0);
     glBindTexture(GL_TEXTURE_2D, texture);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
+    glEnableClientState(GL_TEXTURE_3D);
     glVertexPointer(3, GL_FLOAT, 0, vertices);
     glColorPointer(3, GL_FLOAT, 0, colors);
+    glTexCoordPointer(3, GL_FLOAT, 0, vertices);
 
     /* Send data : 24 vertices */
     glDrawArrays(GL_QUADS, 0, 24);
     glPopMatrix();
 
     /* Cleanup states */
+    glDisableClientState(GL_TEXTURE_3D);
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
 
