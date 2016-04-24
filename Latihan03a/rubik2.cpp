@@ -5,6 +5,9 @@
 #include <iostream>
 using namespace std;
 
+#define SIZE 0.3
+#define OFFSET 0.7
+
 double rotate_y_atas=0; 
 double rotate_y_bawah=0; 
 double rotate_x_kanan=0;
@@ -46,7 +49,7 @@ int main(int argc, char** argv)
     for (int i=0; i<3; i++){
         for (int j=0; j<3; j++){
             for (int k=0; k<3; k++){
-                cubes[i][j][k] = initCube((float)((i-1)*0.7f), (float)((j-1)*0.7f), (float)((k-1)*0.7f), 0.3);
+                cubes[i][j][k] = initCube((float)((i-1)*OFFSET), (float)((j-1)*OFFSET), (float)((k-1)*OFFSET), SIZE);
             }
         }
     }
@@ -72,36 +75,39 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
                 for (int j=0; j<3; j++){
                     for (int k=0; k<3; k++){
                         Cube temp;
-                        temp.x = 0.7;
+                        temp.o = SIZE;
+                        temp.x = OFFSET;
+                        temp.y = 0;
+                        temp.z = 0;
                         if (cubes[i][j][k].y==0){
                             if (cubes[i][j][k].z<0){
-                                temp.y=0.7;
+                                temp.y=OFFSET;
                                 temp.z=0;
-                            } else {
-                                temp.y=-0.7;
+                            } else if (cubes[i][j][k].z>0){
+                                temp.y=-OFFSET;
                                 temp.z=0;
                             }
                         } else if (cubes[i][j][k].z==0){
                             if (cubes[i][j][k].y<0){
-                                temp.z=0.7;
+                                temp.z=-OFFSET;
                                 temp.y=0;
-                            } else {
-                                temp.z=-0.7;
+                            } else if (cubes[i][j][k].y>0){
+                                temp.z=OFFSET;
                                 temp.y=0;
                             }
                         } else {
                             if (cubes[i][j][k].z>0 && cubes[i][j][k].y>0){
-                                temp.y=-0.7;
-                                temp.z=0.7;
+                                temp.y=-OFFSET;
+                                temp.z=OFFSET;
                             } else if (cubes[i][j][k].z>0 && cubes[i][j][k].y<0){
-                                temp.z=-0.7;
-                                temp.y=-0.7;
+                                temp.z=-OFFSET;
+                                temp.y=-OFFSET;
                             } else if (cubes[i][j][k].z<0 && cubes[i][j][k].y<0){
-                                temp.y=0.7;
-                                temp.z=-0.7;
-                            } else {
-                                temp.z=0.7;
-                                temp.y=0.7;
+                                temp.y=OFFSET;
+                                temp.z=-OFFSET;
+                            } else if (cubes[i][j][k].z<0 && cubes[i][j][k].y>0) {
+                                temp.z=OFFSET;
+                                temp.y=OFFSET;
                             }
                         }
                         cubes[i][j][k] = copyCube(temp);
@@ -113,36 +119,39 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
                 for (int j=0; j<3; j++){
                     for (int k=0; k<3; k++){
                         Cube temp;
-                        temp.x = -0.7;
+                        temp.o = SIZE;
+                        temp.x = -OFFSET;
+                        temp.y = 0;
+                        temp.z = 0;
                         if (cubes[i][j][k].y==0){
                             if (cubes[i][j][k].z<0){
-                                temp.y=0.7;
+                                temp.y=OFFSET;
                                 temp.z=0;
-                            } else {
-                                temp.y=-0.7;
+                            } else if (cubes[i][j][k].z>0) {
+                                temp.y=-OFFSET;
                                 temp.z=0;
                             }
                         } else if (cubes[i][j][k].z==0){
                             if (cubes[i][j][k].y<0){
-                                temp.z=0.7;
+                                temp.z=-OFFSET;
                                 temp.y=0;
-                            } else {
-                                temp.z=-0.7;
+                            } else if (cubes[i][j][k].y>0) {
+                                temp.z=OFFSET;
                                 temp.y=0;
                             }
                         } else {
                             if (cubes[i][j][k].z>0 && cubes[i][j][k].y>0){
-                                temp.y=-0.7;
-                                temp.z=0.7;
+                                temp.y=-OFFSET;
+                                temp.z=OFFSET;
                             } else if (cubes[i][j][k].z>0 && cubes[i][j][k].y<0){
-                                temp.z=-0.7;
-                                temp.y=-0.7;
+                                temp.z=-OFFSET;
+                                temp.y=-OFFSET;
                             } else if (cubes[i][j][k].z<0 && cubes[i][j][k].y<0){
-                                temp.y=0.7;
-                                temp.z=-0.7;
-                            } else {
-                                temp.z=0.7;
-                                temp.y=0.7;
+                                temp.y=OFFSET;
+                                temp.z=-OFFSET;
+                            } else if (cubes[i][j][k].z<0 && cubes[i][j][k].y>0) {
+                                temp.z=OFFSET;
+                                temp.y=OFFSET;
                             }
                         }
                         cubes[i][j][k] = copyCube(temp);
@@ -154,36 +163,39 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
                 for (int i=0; i<3; i++){
                     for (int k=0; k<3; k++){
                         Cube temp;
-                        temp.y = 0.7;
+                        temp.o = SIZE;
+                        temp.x = 0;
+                        temp.y = OFFSET;
+                        temp.z = 0;
                         if (cubes[i][j][k].x==0){
                             if (cubes[i][j][k].z<0){
-                                temp.x=-0.7;
+                                temp.x=-OFFSET;
                                 temp.z=0;
-                            } else {
-                                temp.x=0.7;
+                            } else if (cubes[i][j][k].z>0) {
+                                temp.x=OFFSET;
                                 temp.z=0;
                             }
                         } else if (cubes[i][j][k].z==0){
                             if (cubes[i][j][k].x<0){
-                                temp.z=0.7;
+                                temp.z=OFFSET;
                                 temp.x=0;
-                            } else {
-                                temp.z=-0.7;
+                            } else if (cubes[i][j][k].x>0){
+                                temp.z=-OFFSET;
                                 temp.x=0;
                             }
                         } else {
                             if (cubes[i][j][k].z>0 && cubes[i][j][k].x>0){
-                                temp.x=0.7;
-                                temp.z=-0.7;
+                                temp.x=OFFSET;
+                                temp.z=-OFFSET;
                             } else if (cubes[i][j][k].z>0 && cubes[i][j][k].x<0){
-                                temp.z=0.7;
-                                temp.x=0.7;
+                                temp.z=OFFSET;
+                                temp.x=OFFSET;
                             } else if (cubes[i][j][k].z<0 && cubes[i][j][k].x<0){
-                                temp.x=-0.7;
-                                temp.z=0.7;
-                            } else {
-                                temp.z=-0.7;
-                                temp.x=-0.7;
+                                temp.x=-OFFSET;
+                                temp.z=OFFSET;
+                            } else if (cubes[i][j][k].z<0 && cubes[i][j][k].x>0) {
+                                temp.z=-OFFSET;
+                                temp.x=-OFFSET;
                             }
                         }
                         cubes[i][j][k] = copyCube(temp);
@@ -195,45 +207,132 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
                 for (int i=0; i<3; i++){
                     for (int k=0; k<3; k++){
                         Cube temp;
-                        temp.y = -0.7;
+                        temp.o = SIZE;
+                        temp.x = 0;
+                        temp.y = -OFFSET;
+                        temp.z = 0;
                         if (cubes[i][j][k].x==0){
                             if (cubes[i][j][k].z<0){
-                                temp.x=-0.7;
+                                temp.x=-OFFSET;
                                 temp.z=0;
-                            } else {
-                                temp.x=0.7;
+                            } else if (cubes[i][j][k].z>0){
+                                temp.x=OFFSET;
                                 temp.z=0;
                             }
                         } else if (cubes[i][j][k].z==0){
                             if (cubes[i][j][k].x<0){
-                                temp.z=0.7;
+                                temp.z=OFFSET;
                                 temp.x=0;
-                            } else {
-                                temp.z=-0.7;
+                            } else if (cubes[i][j][k].x>0) {
+                                temp.z=-OFFSET;
                                 temp.x=0;
                             }
                         } else {
                             if (cubes[i][j][k].z>0 && cubes[i][j][k].x>0){
-                                temp.x=0.7;
-                                temp.z=-0.7;
+                                temp.x=OFFSET;
+                                temp.z=-OFFSET;
                             } else if (cubes[i][j][k].z>0 && cubes[i][j][k].x<0){
-                                temp.z=0.7;
-                                temp.x=0.7;
+                                temp.z=OFFSET;
+                                temp.x=OFFSET;
                             } else if (cubes[i][j][k].z<0 && cubes[i][j][k].x<0){
-                                temp.x=-0.7;
-                                temp.z=0.7;
-                            } else {
-                                temp.z=-0.7;
-                                temp.x=-0.7;
+                                temp.x=-OFFSET;
+                                temp.z=OFFSET;
+                            } else if (cubes[i][j][k].z<0 && cubes[i][j][k].x>0) {
+                                temp.z=-OFFSET;
+                                temp.x=-OFFSET;
                             }
                         }
                         cubes[i][j][k] = copyCube(temp);
                     }
                 }
 	        } else if (key == GLFW_KEY_C) {
-	            rotate_z_depan += 90;
+	            //rotate_z_depan += 90;
+                int k = 2;
+                for (int i=0; i<3; i++){
+                    for (int j=0; j<3; j++){
+                        Cube temp;
+                        temp.o = SIZE;
+                        temp.x = 0;
+                        temp.y = 0;
+                        temp.z = OFFSET;
+                        if (cubes[i][j][k].x==0){
+                            if (cubes[i][j][k].y<0){
+                                temp.x=-OFFSET;
+                                temp.y=0;
+                            } else if (cubes[i][j][k].y>0){
+                                temp.x=OFFSET;
+                                temp.y=0;
+                            }
+                        } else if (cubes[i][j][k].y==0){
+                            if (cubes[i][j][k].x<0){
+                                temp.y=OFFSET;
+                                temp.x=0;
+                            } else if (cubes[i][j][k].x>0){
+                                temp.y=-OFFSET;
+                                temp.x=0;
+                            }
+                        } else {
+                            if (cubes[i][j][k].y>0 && cubes[i][j][k].x>0){
+                                temp.x=OFFSET;
+                                temp.y=-OFFSET;
+                            } else if (cubes[i][j][k].y>0 && cubes[i][j][k].x<0){
+                                temp.y=OFFSET;
+                                temp.x=OFFSET;
+                            } else if (cubes[i][j][k].y<0 && cubes[i][j][k].x<0){
+                                temp.x=-OFFSET;
+                                temp.y=OFFSET;
+                            } else if (cubes[i][j][k].y<0 && cubes[i][j][k].x>0) {
+                                temp.y=-OFFSET;
+                                temp.x=-OFFSET;
+                            }
+                        }
+                        cubes[i][j][k] = copyCube(temp);
+                    }
+                }
 	        } else if (key == GLFW_KEY_Z) {
-	            rotate_z_belakang += 90;
+	            //rotate_z_belakang += 90;
+                int k = 0;
+                for (int i=0; i<3; i++){
+                    for (int j=0; j<3; j++){
+                        Cube temp;
+                        temp.o = SIZE;
+                        temp.x = 0;
+                        temp.y = 0;
+                        temp.z = -OFFSET;
+                        if (cubes[i][j][k].x==0){
+                            if (cubes[i][j][k].y<0){
+                                temp.x=-OFFSET;
+                                temp.y=0;
+                            } else if (cubes[i][j][k].y>0) {
+                                temp.x=OFFSET;
+                                temp.y=0;
+                            }
+                        } else if (cubes[i][j][k].y==0){
+                            if (cubes[i][j][k].x<0){
+                                temp.y=OFFSET;
+                                temp.x=0;
+                            } else if (cubes[i][j][k].x>0){
+                                temp.y=-OFFSET;
+                                temp.x=0;
+                            }
+                        } else {
+                            if (cubes[i][j][k].y>0 && cubes[i][j][k].x>0){
+                                temp.x=OFFSET;
+                                temp.y=-OFFSET;
+                            } else if (cubes[i][j][k].y>0 && cubes[i][j][k].x<0){
+                                temp.y=OFFSET;
+                                temp.x=OFFSET;
+                            } else if (cubes[i][j][k].y<0 && cubes[i][j][k].x<0){
+                                temp.x=-OFFSET;
+                                temp.y=OFFSET;
+                            } else if (cubes[i][j][k].y<0 && cubes[i][j][k].x>0) {
+                                temp.y=-OFFSET;
+                                temp.x=-OFFSET;
+                            }
+                        }
+                        cubes[i][j][k] = copyCube(temp);
+                    }
+                }
             }
 }
 
@@ -355,16 +454,38 @@ Cube copyCube(Cube copy){
 void drawCube(Cube c)
 {
     glPushMatrix();
+    //cout << c.x << " " << c.y << " " << c.z << endl;
 
-    //attempt to rotate cube
-    if(c.x>0) glRotatef( rotate_x_kanan, 1.0, 0.0, 0.0 );
-    else if(c.x<0)  glRotatef( rotate_x_kiri, 1.0, 0.0, 0.0 );
+    if(c.x>0){
+        glTranslatef(-c.x, -c.y, -c.z);
+        glRotatef( rotate_x_kanan, 1.0, 0.0, 0.0 );
+        glTranslatef(c.x, c.y, c.z);
+        
+    } else if(c.x<0){
+        glTranslatef(-c.x, -c.y, -c.z);
+        glRotatef( rotate_x_kiri, 1.0, 0.0, 0.0 );
+        glTranslatef(c.x, c.y, c.z);
+    }
     
-    if(c.y>0) glRotatef( rotate_y_atas, 0.0, 1.0, 0.0 );
-    else if(c.y<0) glRotatef( rotate_y_bawah, 0.0, 1.0, 0.0 );
+    if(c.y>0){
+        glTranslatef(-c.x, -c.y, -c.z);
+        glRotatef( rotate_y_atas, 0.0, 1.0, 0.0 );
+        glTranslatef(c.x, c.y, c.z);
+    } else if(c.y<0){
+        glTranslatef(-c.x, -c.y, -c.z);
+        glRotatef( rotate_y_bawah, 0.0, 1.0, 0.0 );
+        glTranslatef(c.x, c.y, c.z);
+    }
 
-    if(c.z>0) glRotatef( rotate_z_depan, 0.0, 0.0, 1.0 );
-    else if(c.z<0) glRotatef( rotate_z_belakang, 0.0, 0.0, 1.0 );
+    if(c.z>0) {
+        glTranslatef(-c.x, -c.y, -c.z);
+        glRotatef( rotate_z_depan, 0.0, 0.0, 1.0 );
+        glTranslatef(c.x, c.y, c.z);
+    } else if(c.z<0) {
+        glTranslatef(-c.x, -c.y, -c.z);
+        glRotatef( rotate_z_belakang, 0.0, 0.0, 1.0 );
+        glTranslatef(c.x, c.y, c.z);
+    }
 
     /* We have a color array and a vertex array */
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -404,14 +525,21 @@ void display( GLFWwindow* window )
         glMatrixMode(GL_MODELVIEW_MATRIX);
         glTranslatef(0,0,-5);
 
-        for (int i=2; i<3; i++){
-            for (int j=2; j<3; j++){
-                for (int k=2; k<3; k++){
+        for (int i=0; i<3; i++){
+            for (int j=0; j<3; j++){
+                for (int k=0; k<3; k++){
                     drawCube(cubes[i][j][k]);
                     //cout << cubes[i][j][k].x << " " << cubes[i][j][k].y << " " << cubes[i][j][k].z << endl;
                 }
             }
         }
+
+        glBegin(GL_TRIANGLES);
+        glColor3f(1.f, 1.f, 1.f);
+        glVertex3f(0.f, 0.05f, 0.001f);
+        glVertex3f(-0.05f, -0.05f, 0.001f);
+        glVertex3f(0.05f, -0.05f, 0.001f);
+        glEnd();
 
         // Update Screen
         glfwSwapBuffers(window);
