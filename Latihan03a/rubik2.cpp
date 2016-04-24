@@ -3,6 +3,8 @@
 
 #include <cstdio>
 #include <iostream>
+#include <bits/stdc++.h>
+
 using namespace std;
 
 #define SIZE 0.3
@@ -32,6 +34,10 @@ typedef struct {
     };
 } Cube;
 
+typedef unsigned char BYTE;
+
+GLuint texture;
+
 Cube cubes[3][3][3] = {};
 
 void controls(GLFWwindow* window, int key, int scancode, int action, int mods);
@@ -39,7 +45,8 @@ GLFWwindow* initWindow(const int resX, const int resY);
 Cube initCube(float x, float y, float z, float o);
 Cube copyCube(Cube copy);
 void drawCube(Cube c);
-void display( GLFWwindow* window );
+void display(GLFWwindow* window);
+GLuint LoadTexture(const char * filename, int wrap);
 
 
 int main(int argc, char** argv)
@@ -55,9 +62,9 @@ int main(int argc, char** argv)
         }
     }
 
-    if( NULL != window )
+    if(NULL != window)
     {
-        display( window );
+        display(window);
     }
     glfwDestroyWindow(window);
     glfwTerminate();
@@ -387,10 +394,19 @@ GLFWwindow* initWindow(const int resX, const int resY)
     printf("Renderer: %s\n", glGetString(GL_RENDERER));
     printf("OpenGL version supported %s\n", glGetString(GL_VERSION));
 
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); 
+    glClearDepth(1.0f);    
     glEnable(GL_DEPTH_TEST); // Depth Testing
     glDepthFunc(GL_LEQUAL);
+    glShadeModel(GL_SMOOTH); 
+    glEnable(GL_TEXTURE_2D);  
+    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+	
+    // load our texture
+    texture = LoadTexture("tekstur.bmp", true);
     glDisable(GL_CULL_FACE);
     glCullFace(GL_BACK);
+	
     return window;
 }
 
@@ -514,10 +530,24 @@ void drawCube(Cube c)
     }
 
     /* We have a color array and a vertex array */
+	
+	//init textures
+	glTexCoord2d(0.0,0.0); glVertex2d(0.0,0.0);
+    glTexCoord2d(1.0,0.0); glVertex2d(1.0,0.0);
+    glTexCoord2d(1.0,1.0); glVertex2d(1.0,1.0);
+    glTexCoord2d(0.0,1.0); glVertex2d(0.0,1.0);
+	
+	glBindTexture(GL_TEXTURE_2D, texture);
+		
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
+	glEnableClientState(GL_TEXTURE_3D);
+	
     glVertexPointer(3, GL_FLOAT, 0, c.vertices);
     glColorPointer(3, GL_FLOAT, 0, c.colors);
+	glTexCoordPointer(3, GL_FLOAT, 0, c.vertices);
+	
+	//bind textures
 
     /* Send data : 24 vertices */
     glDrawArrays(GL_QUADS, 0, 24);
@@ -525,13 +555,14 @@ void drawCube(Cube c)
     /* Cleanup states */
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_3D);
 
     glPopMatrix();
 
 }
 
 
-void display( GLFWwindow* window )
+void display(GLFWwindow* window)
 {  
     while(!glfwWindowShouldClose(window))
     {
@@ -559,12 +590,13 @@ void display( GLFWwindow* window )
             }
         }
 
-        glBegin(GL_TRIANGLES);
+        /*glBegin(GL_TRIANGLES);
+		glTexCoord3D()
         glColor3f(1.f, 1.f, 1.f);
         glVertex3f(0.f, 0.05f, 0.001f);
         glVertex3f(-0.05f, -0.05f, 0.001f);
         glVertex3f(0.05f, -0.05f, 0.001f);
-        glEnd();
+        glEnd();*/
 
         // Update Screen
         glfwSwapBuffers(window);
@@ -572,5 +604,52 @@ void display( GLFWwindow* window )
         // Check for any input, or window movement
         glfwPollEvents();
     }
+}
+
+GLuint LoadTexture (const char * filename, int wrap) {
+    int width, height;
+    BYTE * data;
+    FILE * file;
+
+    // open texture data
+    file = fopen(filename, "rb");
+    if (file == NULL) return 0;
+
+    // alokasi buffer
+    width = 256;
+    height = 256;
+    data = (BYTE*) malloc(width * height*3);
+
+    // baca data tekstur
+    fread(data, width * height * 3, 1, file);
+    fclose(file);
+
+    // alokasi nama
+    glGenTextures(1, &texture);
+
+    // current texture
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    // mipmap tekstur
+    gluBuild2DMipmaps(GL_TEXTURE_2D, 3, width, height,
+                       GL_RGB, GL_UNSIGNED_BYTE, data);
+
+
+	//small
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                     GL_LINEAR_MIPMAP_NEAREST);
+					 
+    //large
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
+                     wrap ? GL_REPEAT : GL_CLAMP);
+					 
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
+                     wrap ? GL_REPEAT : GL_CLAMP);
+    // free buffer
+    free(data);
+
+    return texture;
 }
 
