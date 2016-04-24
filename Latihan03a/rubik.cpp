@@ -10,6 +10,10 @@ double rotate_x_kiri=0;
 double rotate_z_depan=0;
 double rotate_z_belakang=0;
 
+double rotate_x = 0;
+double rotate_y = 0;
+double rotate_z = 0;
+
 typedef struct {
     int position_x;
     int position_y;
@@ -74,15 +78,16 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
                     }
                 }
             }
-            else if (key == GLFW_KEY_A)
-                
-            else if (key == GLFW_KEY_W)
-                
-            else if (key == GLFW_KEY_X)
-                
-            else if (key == GLFW_KEY_C)
-                
-            else if (key == GLFW_KEY_Z)
+            else if (key == GLFW_KEY_A){
+            }   
+            else if (key == GLFW_KEY_W) {
+            }    
+            else if (key == GLFW_KEY_X) {
+            }     
+            else if (key == GLFW_KEY_C) {
+            }    
+            else if (key == GLFW_KEY_Z) {
+            }
             
                 
 	}
@@ -154,9 +159,13 @@ GLfloat* drawCube(float x, float y, float z, float a)
     if(z>0) glRotatef( rotate_z_depan, 0.0, 0.0, 1.0 );
     else if(z<0) glRotatef( rotate_z_belakang, 0.0, 0.0, 1.0 );
 */
-    glRotatef(rotate_x, matrix_cube[x][y][z].position_x, 0.0, 0.0 );
-    glRotatef(rotate_y, 0.0, matrix_cube[x][y][z].position_y, 0.0 );
-    glRotatef(rotate_z, 0.0, 0.0, matrix_cube[x][y][z].position_z );
+    int x1 = x/0.7;
+    int y1 = y/0.7;
+    int z1 = z/0.7;
+
+    glRotatef(rotate_x, matrix_cube[x1][y1][z1].position_x, 0.0, 0.0 );
+    glRotatef(rotate_y, 0.0, matrix_cube[x1][y1][z1].position_y, 0.0 );
+    glRotatef(rotate_z, 0.0, 0.0, matrix_cube[x1][y1][z1].position_z );
 
     /* We have a color array and a vertex array */
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -216,6 +225,7 @@ void display( GLFWwindow* window )
 
 int main(int argc, char** argv)
 {
+    init();
     GLFWwindow* window = initWindow(1024, 620);
     if( NULL != window )
     {
