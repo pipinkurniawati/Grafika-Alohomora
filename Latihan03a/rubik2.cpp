@@ -17,6 +17,9 @@ double rotate_x_kiri=0;
 double rotate_z_depan=0;
 double rotate_z_belakang=0;
 
+double display_x=0;
+double display_y=0;
+
 typedef struct {
     float x;
     float y;
@@ -365,6 +368,14 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
                         }
                     }
                 }
+            } else if (key == GLFW_KEY_UP){
+                display_y-=10;
+            } else if (key == GLFW_KEY_DOWN){
+                display_y+=10;
+            } else if (key == GLFW_KEY_RIGHT){
+                display_x-=10;
+            } else if (key == GLFW_KEY_LEFT){
+                display_x+=10;
             }
 }
 
@@ -499,6 +510,7 @@ void drawCube(Cube c)
     glPushMatrix();
 
     if(c.x>0){
+        
         glTranslatef(c.x, c.y, c.z); // translate to center
         glRotatef( rotate_x_kanan, 1.0, 0.0, 0.0 ); // rotate the cube
         glTranslatef(-c.x, -c.y, -c.z); // translate back to initial position
@@ -581,6 +593,11 @@ void display(GLFWwindow* window)
 
         glMatrixMode(GL_MODELVIEW_MATRIX);
         glTranslatef(0,0,-5);
+
+        // LookAt Control
+        //glTranslatef(display_x,display_y,0);
+        glRotatef(display_y, 1.0, 0.0, 0.0);
+        glRotatef(display_x, 0.0, 1.0, 0.0);
 
         for (int i=0; i<3; i++){
             for (int j=0; j<3; j++){
