@@ -35,6 +35,15 @@ typedef struct {
         0, 1, 1,   0, 1, 1,   0, 1, 1,   0, 1, 1,
         1, 0, 1,   1, 0, 1,   1, 0, 1,   1, 0, 1
     };
+    GLfloat normals[72]=
+    {
+        1, 0, 0,   1, 0, 0,   1, 0, 0,   1, 0, 0,
+        -1, 0, 0,   -1, 0, 0,   -1, 0, 0,   -1, 0, 0,
+        0, 1, 0,   0, 1, 0,   0, 1, 0,   0, 1, 0,
+        0, -1, 0,   0, -1, 0,   0, -1, 0,   0, -1, 0,
+        0, 0, 1,   0, 0, 1,   0, 0, 1,   0, 0, 1,
+        0, 0, -1,   0, 0, -1,   0, 0, -1,   0, 0, -1
+    };
 } Cube;
 
 typedef unsigned char BYTE;
@@ -555,11 +564,13 @@ void drawCube(Cube c)
     glTexCoord2d(0.0,1.0); glVertex2d(0.0,1.0);
     
     glBindTexture(GL_TEXTURE_2D, texture);
-        
+    
+    glEnableClientState(GL_NORMAL_ARRAY);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_TEXTURE_3D);
     
+    glNormalPointer(GL_FLOAT, 0, c.normals);
     glVertexPointer(3, GL_FLOAT, 0, c.vertices);
     glColorPointer(3, GL_FLOAT, 0, c.colors);
     glTexCoordPointer(3, GL_FLOAT, 0, c.vertices);
@@ -572,6 +583,7 @@ void drawCube(Cube c)
     /* Cleanup states */
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_NORMAL_ARRAY);
     glDisableClientState(GL_TEXTURE_3D);
 
     glPopMatrix();
@@ -624,7 +636,7 @@ void display(GLFWwindow* window)
         glLightfv(GL_LIGHT0, GL_DIFFUSE, qaDiffuseLight);
         glLightfv(GL_LIGHT0, GL_SPECULAR, qaSpecularLight);
 
-        GLfloat qaLightPosition[] = {0.5, 0.5, 0.2, 1.0};
+        GLfloat qaLightPosition[] = {1.0, 0.5, 0.2, 1.0};
         glLightfv(GL_LIGHT0, GL_POSITION, qaLightPosition);
 
         // Update Screen
