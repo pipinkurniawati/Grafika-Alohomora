@@ -20,6 +20,12 @@ double rotate_z_belakang=0;
 double display_x=0;
 double display_y=0;
 
+bool light1 = true;
+bool light2 = true;
+bool ambient = true;
+bool diffuse = true;
+bool specular = true;
+
 typedef struct {
     float x;
     float y;
@@ -395,6 +401,16 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
                 display_x-=10;
             } else if (key == GLFW_KEY_LEFT){
                 display_x+=10;
+            } else if (key == GLFW_KEY_N){
+                light1 = !light1;
+            } else if (key == GLFW_KEY_M){
+                light2 = !light2;
+            } else if (key == GLFW_KEY_H){
+                ambient = !ambient;
+            } else if (key == GLFW_KEY_J){
+                diffuse = !diffuse;
+            } else if (key == GLFW_KEY_K){
+                specular = !specular;
             }
 }
 
@@ -640,17 +656,30 @@ void display(GLFWwindow* window)
         glEnable(GL_LIGHT0);
         glEnable(GL_COLOR_MATERIAL);
 
-        GLfloat qaAmbientLight[] = {0.2, 0.2, 0.2, 1.0};
-        GLfloat qaDiffuseLight[] = {0.8, 0.8, 0.8, 1.0};
-        GLfloat qaSpecularLight[] = {1.0, 1.0, 1.0, 1.0};
-        glLightfv(GL_LIGHT0, GL_AMBIENT, qaAmbientLight);
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, qaDiffuseLight);
-        glLightfv(GL_LIGHT0, GL_SPECULAR, qaSpecularLight);
+        if (ambient){
+            GLfloat qaAmbientLight[] = {1, 1, 0, 1.0};
+            glLightfv(GL_LIGHT0, GL_AMBIENT, qaAmbientLight);
+        }
 
-        GLfloat qaLightPosition[] = {1.0, 0.5, 0.2, 1.0};
-        GLfloat qaLightPosition2[] = {1.0, 1.0, 1.0, 1.0};
-        glLightfv(GL_LIGHT0, GL_POSITION, qaLightPosition);
-        glLightfv(GL_LIGHT0, GL_POSITION, qaLightPosition2);
+        if (diffuse){
+            GLfloat qaDiffuseLight[] = {1, 1, 1, 1.0};
+            glLightfv(GL_LIGHT0, GL_DIFFUSE, qaDiffuseLight);
+        }
+
+        if (specular){
+            GLfloat qaSpecularLight[] = {0, 1, 1, 1.0};
+            glLightfv(GL_LIGHT0, GL_SPECULAR, qaSpecularLight);
+        }
+
+        if (light1){
+            GLfloat qaLightPosition[] = {1.0, 0.5, 0.2, 1.0};
+            glLightfv(GL_LIGHT0, GL_POSITION, qaLightPosition);
+        }
+
+        if (light2) {
+            GLfloat qaLightPosition2[] = {1.0, 1.0, 1.0, 1.0};
+            glLightfv(GL_LIGHT0, GL_POSITION, qaLightPosition2);
+        }
 
         // Update Screen
         glfwSwapBuffers(window);
