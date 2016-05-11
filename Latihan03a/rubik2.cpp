@@ -17,6 +17,9 @@ double rotate_x_kiri=0;
 double rotate_z_depan=0;
 double rotate_z_belakang=0;
 
+double display_x=0;
+double display_y=0;
+
 typedef struct {
     float x;
     float y;
@@ -77,8 +80,8 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
         if(key == GLFW_KEY_ESCAPE)
             glfwSetWindowShouldClose(window, GL_TRUE);
         else
-	        if (key == GLFW_KEY_D) { // keypress D memutar rubiks bagian kanan
-            	rotate_x_kanan += 90;
+            if (key == GLFW_KEY_D) { // keypress D memutar rubiks bagian kanan
+                rotate_x_kanan += 90;
                 for (int i=0; i<3; i++){ // cek satu per satu Cube di matrix cubes
                     for (int j=0; j<3; j++){
                         for (int k=0; k<3; k++){
@@ -125,8 +128,8 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
                         }
                     }
                 }
-	        } else if (key == GLFW_KEY_A) { // keypress A memutar rubiks bagian kiri
-	            rotate_x_kiri += 90;
+            } else if (key == GLFW_KEY_A) { // keypress A memutar rubiks bagian kiri
+                rotate_x_kiri += 90;
                 for (int i=0; i<3; i++){ // cek satu per satu Cube di matrix cubes
                     for (int j=0; j<3; j++){
                         for (int k=0; k<3; k++){
@@ -173,8 +176,8 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
                         }
                     }
                 }
-	        } else if (key == GLFW_KEY_W) { // keypress W memutar rubiks bagian atas
-	            rotate_y_atas += 90;
+            } else if (key == GLFW_KEY_W) { // keypress W memutar rubiks bagian atas
+                rotate_y_atas += 90;
                 for (int i=0; i<3; i++){ // cek satu per satu Cube di matrix cubes
                     for (int j=0; j<3; j++){
                         for (int k=0; k<3; k++){
@@ -221,8 +224,8 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
                         }
                     }
                 }
-	        } else if (key == GLFW_KEY_X) { // keypress X memutar rubiks bawah
-	            rotate_y_bawah += 90;
+            } else if (key == GLFW_KEY_X) { // keypress X memutar rubiks bawah
+                rotate_y_bawah += 90;
                 for (int i=0; i<3; i++){ // cek satu per satu Cube di matrix cubes
                     for (int j=0; j<3; j++){
                         for (int k=0; k<3; k++){
@@ -269,8 +272,8 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
                         }
                     }
                 }
-	        } else if (key == GLFW_KEY_C) { // keypress C memutar rubiks bagian depan
-	            rotate_z_depan += 90;
+            } else if (key == GLFW_KEY_C) { // keypress C memutar rubiks bagian depan
+                rotate_z_depan += 90;
                 for (int i=0; i<3; i++){ // cek satu per satu Cube di matrix cubes
                     for (int j=0; j<3; j++){
                         for(int k=0; k<3; k++){
@@ -317,8 +320,8 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
                         }
                     }
                 }
-	        } else if (key == GLFW_KEY_Z) { // keypress Z memutar rubiks bagian belakang
-	            rotate_z_belakang += 90;
+            } else if (key == GLFW_KEY_Z) { // keypress Z memutar rubiks bagian belakang
+                rotate_z_belakang += 90;
                 for (int i=0; i<3; i++){ // cek satu per satu Cube di matrix cubes
                     for (int j=0; j<3; j++){
                         for(int k=0; k<3; k++){
@@ -365,6 +368,14 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
                         }
                     }
                 }
+            } else if (key == GLFW_KEY_UP){
+                display_y-=10;
+            } else if (key == GLFW_KEY_DOWN){
+                display_y+=10;
+            } else if (key == GLFW_KEY_RIGHT){
+                display_x-=10;
+            } else if (key == GLFW_KEY_LEFT){
+                display_x+=10;
             }
 }
 
@@ -401,12 +412,12 @@ GLFWwindow* initWindow(const int resX, const int resY)
     glShadeModel(GL_SMOOTH); 
     glEnable(GL_TEXTURE_2D);  
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-	
+    
     // load our texture
     texture = LoadTexture("tekstur.bmp", true);
     glDisable(GL_CULL_FACE);
     glCullFace(GL_BACK);
-	
+    
     return window;
 }
 
@@ -499,6 +510,7 @@ void drawCube(Cube c)
     glPushMatrix();
 
     if(c.x>0){
+        
         glTranslatef(c.x, c.y, c.z); // translate to center
         glRotatef( rotate_x_kanan, 1.0, 0.0, 0.0 ); // rotate the cube
         glTranslatef(-c.x, -c.y, -c.z); // translate back to initial position
@@ -530,24 +542,24 @@ void drawCube(Cube c)
     }
 
     /* We have a color array and a vertex array */
-	
-	//init textures
-	glTexCoord2d(0.0,0.0); glVertex2d(0.0,0.0);
+    
+    //init textures
+    glTexCoord2d(0.0,0.0); glVertex2d(0.0,0.0);
     glTexCoord2d(1.0,0.0); glVertex2d(1.0,0.0);
     glTexCoord2d(1.0,1.0); glVertex2d(1.0,1.0);
     glTexCoord2d(0.0,1.0); glVertex2d(0.0,1.0);
-	
-	glBindTexture(GL_TEXTURE_2D, texture);
-		
+    
+    glBindTexture(GL_TEXTURE_2D, texture);
+        
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
-	glEnableClientState(GL_TEXTURE_3D);
-	
+    glEnableClientState(GL_TEXTURE_3D);
+    
     glVertexPointer(3, GL_FLOAT, 0, c.vertices);
     glColorPointer(3, GL_FLOAT, 0, c.colors);
-	glTexCoordPointer(3, GL_FLOAT, 0, c.vertices);
-	
-	//bind textures
+    glTexCoordPointer(3, GL_FLOAT, 0, c.vertices);
+    
+    //bind textures
 
     /* Send data : 24 vertices */
     glDrawArrays(GL_QUADS, 0, 24);
@@ -555,7 +567,7 @@ void drawCube(Cube c)
     /* Cleanup states */
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_TEXTURE_3D);
+    glDisableClientState(GL_TEXTURE_3D);
 
     glPopMatrix();
 
@@ -582,6 +594,11 @@ void display(GLFWwindow* window)
         glMatrixMode(GL_MODELVIEW_MATRIX);
         glTranslatef(0,0,-5);
 
+        // LookAt Control
+        //glTranslatef(display_x,display_y,0);
+        glRotatef(display_y, 1.0, 0.0, 0.0);
+        glRotatef(display_x, 0.0, 1.0, 0.0);
+
         for (int i=0; i<3; i++){
             for (int j=0; j<3; j++){
                 for (int k=0; k<3; k++){
@@ -591,7 +608,7 @@ void display(GLFWwindow* window)
         }
 
         /*glBegin(GL_TRIANGLES);
-		glTexCoord3D()
+        glTexCoord3D()
         glColor3f(1.f, 1.f, 1.f);
         glVertex3f(0.f, 0.05f, 0.001f);
         glVertex3f(-0.05f, -0.05f, 0.001f);
@@ -635,16 +652,16 @@ GLuint LoadTexture (const char * filename, int wrap) {
                        GL_RGB, GL_UNSIGNED_BYTE, data);
 
 
-	//small
+    //small
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
                      GL_LINEAR_MIPMAP_NEAREST);
-					 
+                     
     //large
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
                      wrap ? GL_REPEAT : GL_CLAMP);
-					 
+                     
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
                      wrap ? GL_REPEAT : GL_CLAMP);
     // free buffer
@@ -652,4 +669,3 @@ GLuint LoadTexture (const char * filename, int wrap) {
 
     return texture;
 }
-
