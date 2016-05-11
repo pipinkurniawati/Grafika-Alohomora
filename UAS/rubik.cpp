@@ -621,19 +621,11 @@ void display(GLFWwindow* window)
         GLfloat qaDiffuseLight[] = {0.8, 0.8, 0.8, 1.0};
         GLfloat qaSpecularLight[] = {1.0, 1.0, 1.0, 1.0};
         glLightfv(GL_LIGHT0, GL_AMBIENT, qaAmbientLight);
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, qaAmbientLight);
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, qaDiffuseLight);
         glLightfv(GL_LIGHT0, GL_SPECULAR, qaSpecularLight);
 
         GLfloat qaLightPosition[] = {0.5, 0.5, 0.2, 1.0};
         glLightfv(GL_LIGHT0, GL_POSITION, qaLightPosition);
-
-        /*glBegin(GL_TRIANGLES);
-        glTexCoord3D()
-        glColor3f(1.f, 1.f, 1.f);
-        glVertex3f(0.f, 0.05f, 0.001f);
-        glVertex3f(-0.05f, -0.05f, 0.001f);
-        glVertex3f(0.05f, -0.05f, 0.001f);
-        glEnd();*/
 
         // Update Screen
         glfwSwapBuffers(window);
