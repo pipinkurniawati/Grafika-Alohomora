@@ -25,6 +25,11 @@ typedef struct {
     float y;
     float z;
     float o;
+
+    GLfloat xRotated;
+    GLfloat yRotated;
+    GLfloat zRotated;
+
     GLfloat vertices[72];
     GLfloat colors[72] = 
     {
@@ -48,6 +53,7 @@ GLFWwindow* initWindow(const int resX, const int resY);
 Cube initCube(float x, float y, float z, float o);
 Cube copyCube(Cube copy);
 void drawCube(Cube c);
+void rotate(Cube c, float midX, float midY, float midZ, float degX, float degY, float degZ);
 void display(GLFWwindow* window);
 GLuint LoadTexture(const char * filename, int wrap);
 
@@ -124,7 +130,11 @@ void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
                                     }
                                 }
                             }
+
                             cubes[i][j][k] = copyCube(temp); // replace dengan posisi cube yg baru
+
+                            //rotate(cubes[i][j][k], 0.3, 0, 0, 90, 0, 0);
+                            //cubes[i][j][k].yRotated += 90;
                         }
                     }
                 }
@@ -593,6 +603,7 @@ void display(GLFWwindow* window)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glMatrixMode(GL_PROJECTION_MATRIX);
+
         glLoadIdentity();
         gluPerspective( 60, (double)windowWidth / (double)windowHeight, 0.1, 100 );
 
@@ -621,11 +632,13 @@ void display(GLFWwindow* window)
         GLfloat qaDiffuseLight[] = {0.8, 0.8, 0.8, 1.0};
         GLfloat qaSpecularLight[] = {1.0, 1.0, 1.0, 1.0};
         glLightfv(GL_LIGHT0, GL_AMBIENT, qaAmbientLight);
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, qaAmbientLight);
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, qaDiffuseLight);
         glLightfv(GL_LIGHT0, GL_SPECULAR, qaSpecularLight);
 
         GLfloat qaLightPosition[] = {0.5, 0.5, 0.2, 1.0};
+        GLfloat qaLightPosition2[] = {1.0, 1.0, 1.0, 1.0};
         glLightfv(GL_LIGHT0, GL_POSITION, qaLightPosition);
+        glLightfv(GL_LIGHT0, GL_POSITION, qaLightPosition2);
 
         /*glBegin(GL_TRIANGLES);
         glTexCoord3D()
@@ -641,6 +654,33 @@ void display(GLFWwindow* window)
         // Check for any input, or window movement
         glfwPollEvents();
     }
+}
+
+void rotate(Cube c, float midX,float midY,float midZ,float degX=0,float degY=0,float degZ=0){
+        c.x -= midX;
+        c.y -= midY;
+        c.z -= midZ;
+        float tempx = c.x;
+        float tempy = c.y;
+        float tempz = c.z;
+
+        float radX = degX * 3.14159265358979323846 / 180.0 ;
+        float radY = degY * 3.14159265358979323846 / 180.0 ;
+        float radZ = degZ * 3.14159265358979323846 / 180.0 ;
+
+        if (degZ) {
+          c.x = tempx*cos(radZ)-tempy*sin(radZ);
+          c.y = tempx*sin(radZ)+tempy*cos(radZ);
+        } else if (degY) {
+          c.x = tempz*sin(radY)+tempx*cos(radY);
+          c.z = tempz*cos(radY)-tempx*sin(radY);
+        } else {
+          c.y = tempy*cos(radX)-tempz*sin(radX);
+          c.z = tempy*sin(radX)+tempz*cos(radX);
+        }
+        c.x += midX;
+        c.y += midY;
+        c.z += midZ;
 }
 
 GLuint LoadTexture (const char * filename, int wrap) {
