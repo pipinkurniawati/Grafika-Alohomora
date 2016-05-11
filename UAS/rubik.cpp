@@ -640,14 +640,6 @@ void display(GLFWwindow* window)
         glLightfv(GL_LIGHT0, GL_POSITION, qaLightPosition);
         glLightfv(GL_LIGHT0, GL_POSITION, qaLightPosition2);
 
-        /*glBegin(GL_TRIANGLES);
-        glTexCoord3D()
-        glColor3f(1.f, 1.f, 1.f);
-        glVertex3f(0.f, 0.05f, 0.001f);
-        glVertex3f(-0.05f, -0.05f, 0.001f);
-        glVertex3f(0.05f, -0.05f, 0.001f);
-        glEnd();*/
-
         // Update Screen
         glfwSwapBuffers(window);
 
