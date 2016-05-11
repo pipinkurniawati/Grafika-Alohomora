@@ -413,6 +413,11 @@ GLFWwindow* initWindow(const int resX, const int resY)
     glEnable(GL_TEXTURE_2D);  
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     
+    /*glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 10.0f);
+    glEnable(GL_LIGHT0); 
+    glEnable(GL_LIGHTING);
+    glEnable(GL_COLOR_MATERIAL);*/
+
     // load our texture
     texture = LoadTexture("tekstur.bmp", true);
     glDisable(GL_CULL_FACE);
@@ -610,6 +615,7 @@ void display(GLFWwindow* window)
         glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
         glEnable(GL_LIGHTING);
         glEnable(GL_LIGHT0);
+        glEnable(GL_COLOR_MATERIAL);
 
         GLfloat qaAmbientLight[] = {0.2, 0.2, 0.2, 1.0};
         GLfloat qaDiffuseLight[] = {0.8, 0.8, 0.8, 1.0};
