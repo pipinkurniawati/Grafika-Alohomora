@@ -75,24 +75,40 @@ GLuint LoadTexture(const char * filename, int wrap);
 
 int main(int argc, char** argv)
 {
-    GLFWwindow* window = initWindow(1024, 620);
-    
-    // Initiate cubes
-    for (int i=0; i<3; i++){
-        for (int j=0; j<3; j++){
-            for (int k=0; k<3; k++){
-                cubes[i][j][k] = initCube((float)((i-1)*OFFSET), (float)((j-1)*OFFSET), (float)((k-1)*OFFSET), SIZE);
+    if (argc < 2){
+        printf("missing lighting parameter\n");
+        exit(0);
+    } else {
+        if(atoi(argv[1])==1){
+            light1=true;
+            light2=false;
+        } else if(atoi(argv[1])==2){
+            light2=true;
+            light1=false;
+        } else {
+            light1=true;
+            light2=true;
+        }
+
+        GLFWwindow* window = initWindow(1024, 620);
+        
+        // Initiate cubes
+        for (int i=0; i<3; i++){
+            for (int j=0; j<3; j++){
+                for (int k=0; k<3; k++){
+                    cubes[i][j][k] = initCube((float)((i-1)*OFFSET), (float)((j-1)*OFFSET), (float)((k-1)*OFFSET), SIZE);
+                }
             }
         }
-    }
 
-    if(NULL != window)
-    {
-        display(window);
+        if(NULL != window)
+        {
+            display(window);
+        }
+        glfwDestroyWindow(window);
+        glfwTerminate();
+        return 0;
     }
-    glfwDestroyWindow(window);
-    glfwTerminate();
-    return 0;
 }
 
 void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -653,32 +669,32 @@ void display(GLFWwindow* window)
 
         glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
         glEnable(GL_LIGHTING);
-        glEnable(GL_LIGHT0);
+        if (light1) 
+            glEnable(GL_LIGHT0);
+        if (light2) 
+            glEnable(GL_LIGHT1);
         glEnable(GL_COLOR_MATERIAL);
 
-        if (ambient){
-            GLfloat qaAmbientLight[] = {1, 1, 0, 1.0};
-            glLightfv(GL_LIGHT0, GL_AMBIENT, qaAmbientLight);
-        }
-
-        if (diffuse){
-            GLfloat qaDiffuseLight[] = {1, 1, 1, 1.0};
-            glLightfv(GL_LIGHT0, GL_DIFFUSE, qaDiffuseLight);
-        }
-
-        if (specular){
-            GLfloat qaSpecularLight[] = {0, 1, 1, 1.0};
-            glLightfv(GL_LIGHT0, GL_SPECULAR, qaSpecularLight);
-        }
+        GLfloat qaAmbientLight[] = {1, 1, 0, 1.0};
+        GLfloat qaDiffuseLight[] = {1, 1, 1, 1.0};
+        GLfloat qaSpecularLight[] = {0, 1, 1, 1.0};
 
         if (light1){
-            GLfloat qaLightPosition[] = {1.0, 0.5, 0.2, 1.0};
+            if (ambient) glLightfv(GL_LIGHT0, GL_AMBIENT, qaAmbientLight);
+            if (diffuse) glLightfv(GL_LIGHT0, GL_DIFFUSE, qaDiffuseLight);
+            if (specular) glLightfv(GL_LIGHT0, GL_SPECULAR, qaSpecularLight);
+
+            GLfloat qaLightPosition[] = {-1.0, -1.0, -1.0, 1.0};
             glLightfv(GL_LIGHT0, GL_POSITION, qaLightPosition);
         }
 
         if (light2) {
+            if (ambient) glLightfv(GL_LIGHT1, GL_AMBIENT, qaAmbientLight);
+            if (diffuse) glLightfv(GL_LIGHT1, GL_DIFFUSE, qaDiffuseLight);
+            if (specular) glLightfv(GL_LIGHT1, GL_SPECULAR, qaSpecularLight);
+
             GLfloat qaLightPosition2[] = {1.0, 1.0, 1.0, 1.0};
-            glLightfv(GL_LIGHT0, GL_POSITION, qaLightPosition2);
+            glLightfv(GL_LIGHT1, GL_POSITION, qaLightPosition2);
         }
 
         // Update Screen
