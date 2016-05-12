@@ -75,7 +75,7 @@ GLuint LoadTexture(const char * filename, int wrap);
 
 int main(int argc, char** argv)
 {
-    if (argc < 2){
+    /*if (argc < 2){
         printf("missing lighting parameter\n");
         exit(0);
     } else {
@@ -88,7 +88,7 @@ int main(int argc, char** argv)
         } else {
             light1=true;
             light2=true;
-        }
+        }*/
 
         GLFWwindow* window = initWindow(1024, 620);
         
@@ -108,7 +108,7 @@ int main(int argc, char** argv)
         glfwDestroyWindow(window);
         glfwTerminate();
         return 0;
-    }
+    //}
 }
 
 void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -671,31 +671,56 @@ void display(GLFWwindow* window)
         glEnable(GL_LIGHTING);
         if (light1) 
             glEnable(GL_LIGHT0);
-        if (light2)
-            glEnable(GL_LIGHT1);
-        if (!light1)
+        if (!light1) 
             glDisable(GL_LIGHT0);
-        if (!light2)
+        if (light2) 
+            glEnable(GL_LIGHT1);
+        if (!light2) 
             glDisable(GL_LIGHT1);
         glEnable(GL_COLOR_MATERIAL);
 
         GLfloat qaAmbientLight[] = {1, 1, 0, 1.0};
         GLfloat qaDiffuseLight[] = {1, 1, 1, 1.0};
         GLfloat qaSpecularLight[] = {0, 1, 1, 1.0};
+        GLfloat lightOff[] = {0, 0, 0, 0};
 
         if (light1){
-            if (ambient) glLightfv(GL_LIGHT0, GL_AMBIENT, qaAmbientLight);
-            if (diffuse) glLightfv(GL_LIGHT0, GL_DIFFUSE, qaDiffuseLight);
-            if (specular) glLightfv(GL_LIGHT0, GL_SPECULAR, qaSpecularLight);
+            if (ambient) {
+                glLightfv(GL_LIGHT0, GL_AMBIENT, qaAmbientLight);
+            } else {
+                glLightfv(GL_LIGHT0, GL_AMBIENT, lightOff);
+            }
+            if (diffuse) {
+                glLightfv(GL_LIGHT0, GL_DIFFUSE, qaDiffuseLight);
+            } else {
+                glLightfv(GL_LIGHT0, GL_DIFFUSE, lightOff);
+            }
+            if (specular) {
+                glLightfv(GL_LIGHT0, GL_SPECULAR, qaSpecularLight);
+            } else {
+                glLightfv(GL_LIGHT0, GL_SPECULAR, lightOff);
+            }
 
             GLfloat qaLightPosition[] = {-1.0, -1.0, -1.0, 1.0};
             glLightfv(GL_LIGHT0, GL_POSITION, qaLightPosition);
         }
 
         if (light2) {
-            if (ambient) glLightfv(GL_LIGHT1, GL_AMBIENT, qaAmbientLight);
-            if (diffuse) glLightfv(GL_LIGHT1, GL_DIFFUSE, qaDiffuseLight);
-            if (specular) glLightfv(GL_LIGHT1, GL_SPECULAR, qaSpecularLight);
+            if (ambient) {
+                glLightfv(GL_LIGHT1, GL_AMBIENT, qaAmbientLight);
+            } else {
+                glLightfv(GL_LIGHT1, GL_AMBIENT, lightOff);
+            }
+            if (diffuse) {
+                glLightfv(GL_LIGHT1, GL_DIFFUSE, qaDiffuseLight);
+            } else {
+                glLightfv(GL_LIGHT1, GL_DIFFUSE, lightOff);
+            }
+            if (specular) {
+                glLightfv(GL_LIGHT1, GL_SPECULAR, qaSpecularLight);
+            } else {
+                glLightfv(GL_LIGHT1, GL_SPECULAR, lightOff);
+            }
 
             GLfloat qaLightPosition2[] = {1.0, 1.0, 1.0, 1.0};
             glLightfv(GL_LIGHT1, GL_POSITION, qaLightPosition2);
