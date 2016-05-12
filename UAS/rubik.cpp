@@ -677,11 +677,14 @@ void display(GLFWwindow* window)
             glEnable(GL_LIGHT1);
         if (!light2) 
             glDisable(GL_LIGHT1);
+        
         glEnable(GL_COLOR_MATERIAL);
-
+        glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+        
         GLfloat qaAmbientLight[] = {1, 1, 0, 1.0};
-        GLfloat qaDiffuseLight[] = {1, 1, 1, 1.0};
-        GLfloat qaSpecularLight[] = {0, 1, 1, 1.0};
+        GLfloat qaDiffuseLight[] = {0, 1, 1, 1.0};
+        GLfloat qaSpecularLight[] = {1, 1, 1, 1.0};
+        GLfloat specReflection[] = {0.8, 0.8, 0.8, 1.0};
         GLfloat lightOff[] = {0, 0, 0, 0};
 
         if (light1){
@@ -697,6 +700,7 @@ void display(GLFWwindow* window)
             }
             if (specular) {
                 glLightfv(GL_LIGHT0, GL_SPECULAR, qaSpecularLight);
+                
             } else {
                 glLightfv(GL_LIGHT0, GL_SPECULAR, lightOff);
             }
@@ -724,6 +728,13 @@ void display(GLFWwindow* window)
 
             GLfloat qaLightPosition2[] = {1.0, 1.0, 1.0, 1.0};
             glLightfv(GL_LIGHT1, GL_POSITION, qaLightPosition2);
+        }
+
+        if (specular){
+            glMaterialfv(GL_FRONT, GL_SPECULAR, specReflection);
+            glMateriali(GL_FRONT, GL_SHININESS, 128);
+        } else {
+            glMaterialfv(GL_FRONT, GL_SPECULAR, lightOff);
         }
 
         // Update Screen
