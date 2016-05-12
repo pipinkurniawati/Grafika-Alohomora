@@ -668,6 +668,8 @@ void display(GLFWwindow* window)
         }
 
         glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+        glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL,GL_SEPARATE_SPECULAR_COLOR);
+
         glEnable(GL_LIGHTING);
         if (light1) 
             glEnable(GL_LIGHT0);
@@ -680,7 +682,7 @@ void display(GLFWwindow* window)
         
         glEnable(GL_COLOR_MATERIAL);
         glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-        
+
         GLfloat qaAmbientLight[] = {1, 1, 0, 1.0};
         GLfloat qaDiffuseLight[] = {0, 1, 1, 1.0};
         GLfloat qaSpecularLight[] = {1, 1, 1, 1.0};
