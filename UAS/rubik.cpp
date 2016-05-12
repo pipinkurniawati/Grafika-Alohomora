@@ -671,8 +671,12 @@ void display(GLFWwindow* window)
         glEnable(GL_LIGHTING);
         if (light1) 
             glEnable(GL_LIGHT0);
-        if (light2) 
+        if (light2)
             glEnable(GL_LIGHT1);
+        if (!light1)
+            glDisable(GL_LIGHT0);
+        if (!light2)
+            glDisable(GL_LIGHT1);
         glEnable(GL_COLOR_MATERIAL);
 
         GLfloat qaAmbientLight[] = {1, 1, 0, 1.0};
